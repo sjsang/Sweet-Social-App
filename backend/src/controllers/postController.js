@@ -72,23 +72,6 @@ const getPostById = async (req, res) => {
     }
 };
 
-const getUserPosts = async (req, res) => {
-    try {
-        const userId = req.userId;
-        const userPosts = await Post.find({ user: userId })
-            .populate('user', 'username avatar')
-            .sort({ createdAt: -1 });
-
-        return res.status(200).json({
-            success: true,
-            message: `Lấy tất cả bài viết của người dùng thành công.`,
-            data: userPosts
-        });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
 const updatePost = async (req, res) => {
     try {
         const userId = req.userId;
@@ -181,7 +164,6 @@ module.exports = {
     createPost,
     getAllPosts,
     getPostById,
-    getUserPosts,
     updatePost,
     deletePost,
     toggleLikePost,

@@ -5,7 +5,6 @@ const {
     createPost,
     getAllPosts,
     getPostById,
-    getUserPosts,
     updatePost,
     deletePost,
     toggleLikePost,
@@ -15,7 +14,6 @@ const {
 
 router.post('/', authMiddleware, createPost);
 router.get('/', getAllPosts);
-router.get('/user/:userId', authMiddleware, getUserPosts);
 router.get('/:id', getPostById);
 router.patch('/:id', authMiddleware, updatePost);
 router.delete('/:id', authMiddleware, deletePost);

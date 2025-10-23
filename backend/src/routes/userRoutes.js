@@ -6,8 +6,7 @@ const {
     getUserById,
     updateUser,
     deleteUser,
-    followUser,
-    unfollowUser,
+    toggleFollow,
 } = require("../controllers/userController");
 
 // /api/users
@@ -16,7 +15,6 @@ router.get('/search', searchUsers);
 router.get('/:id', getUserById);
 router.patch('/:id', authMiddleware, updateUser);
 router.delete('/:id', authMiddleware, deleteUser);
-router.post('/:id/follow', authMiddleware, followUser);
-router.post('/:id/unfollow', authMiddleware, unfollowUser);
+router.post('/:id/follow', authMiddleware, toggleFollow);
 
 module.exports = router;
