@@ -1,4 +1,5 @@
 const Post = require('../models/Post');
+const Comment = require('../models/Comment');
 const Notification = require('../models/Notification');
 
 const createPost = async (req, res) => {
@@ -26,7 +27,21 @@ const createPost = async (req, res) => {
 
 const getAllPosts = async (req, res) => {
     try {
+        const posts = await Post.find()
+            .populate('user', 'username avatar');
 
+        posts.sort((a, b) => {
+            if (b.likes.length === a.likes.length) {
+                return new Date(b.createdAt) - new Date(a.createdAt);
+            }
+            return b.likes.length - a.likes.length;
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: `Lấy tất cả bài viết thành công.`,
+            data: posts
+        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -34,7 +49,24 @@ const getAllPosts = async (req, res) => {
 
 const getPostById = async (req, res) => {
     try {
+        const { id } = req.params;
 
+        const post = await Post.findById(id).populate('user', 'username avatar');
+        if (!post)
+            return res.status(404).json({ message: 'Không tìm thấy bài viết.' });
+
+        const postComments = await Comment.find({ post: id })
+            .populate('user', 'username')
+            .sort({ createdAt: -1 });
+
+        return res.status(200).json({
+            success: true,
+            message: `Lấy chi tiết bài viết thành công.`,
+            data: {
+                post: post,
+                comment: postComments
+            }
+        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -42,7 +74,16 @@ const getPostById = async (req, res) => {
 
 const getUserPosts = async (req, res) => {
     try {
+        const userId = req.userId;
+        const userPosts = await Post.find({ user: userId })
+            .populate('user', 'username avatar')
+            .sort({ createdAt: -1 });
 
+        return res.status(200).json({
+            success: true,
+            message: `Lấy tất cả bài viết của người dùng thành công.`,
+            data: userPosts
+        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -50,7 +91,24 @@ const getUserPosts = async (req, res) => {
 
 const updatePost = async (req, res) => {
     try {
+        const userId = req.userId;
+        const { id } = req.params;
+        const { content, image } = req.body;
 
+        const updatedPost = await Post.findOneAndUpdate(
+            { _id: id, user: userId },
+            { content, image },
+            { new: true }
+        );
+
+        if (!updatedPost)
+            return res.status(404).json({ message: 'Không tìm thấy bài viết hoặc không có quyền chỉnh sửa.' });
+
+        return res.status(200).json({
+            success: true,
+            message: `Chỉnh sửa bài viết thành công.`,
+            data: updatedPost
+        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -58,7 +116,20 @@ const updatePost = async (req, res) => {
 
 const deletePost = async (req, res) => {
     try {
+        const userId = req.userId;
+        const { id } = req.params;
 
+        const deletedPost = await Post.findOneAndDelete({ _id: id, user: userId });
+        if (!deletedPost)
+            return res.status(404).json({ message: 'Không tìm thấy bài viết hoặc không có quyền xóa.' });
+
+        await Comment.deleteMany({ post: id });
+        await Notification.deleteMany({ post: id });
+
+        return res.status(200).json({
+            success: true,
+            message: `Xóa bài viết thành công.`,
+        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
