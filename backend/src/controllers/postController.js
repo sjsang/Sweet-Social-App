@@ -28,9 +28,20 @@ const createPost = async (req, res) => {
 const getAllPosts = async (req, res) => {
     try {
         const posts = await Post.find()
-            .populate('user', 'username avatar');
+            .populate('user', 'username avatar')
+            .lean();
 
-        posts.sort((a, b) => {
+        const postsWithCommentCount = await Promise.all(
+            posts.map(async (post) => {
+                const commentCount = await Comment.countDocuments({ post: post._id });
+                return {
+                    ...post,
+                    commentCount
+                };
+            })
+        );
+
+        postsWithCommentCount.sort((a, b) => {
             if (b.likes.length === a.likes.length) {
                 return new Date(b.createdAt) - new Date(a.createdAt);
             }
@@ -40,12 +51,13 @@ const getAllPosts = async (req, res) => {
         return res.status(200).json({
             success: true,
             message: `Lấy tất cả bài viết thành công.`,
-            data: posts
+            data: postsWithCommentCount
         });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 const getPostById = async (req, res) => {
     try {
