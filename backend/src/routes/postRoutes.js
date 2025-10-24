@@ -8,6 +8,7 @@ const {
     updatePost,
     deletePost,
     toggleLikePost,
+    commentPost,
 } = require("../controllers/postController");
 
 // /api/posts
@@ -18,5 +19,6 @@ router.get('/:id', getPostById);
 router.patch('/:id', authMiddleware, updatePost);
 router.delete('/:id', authMiddleware, deletePost);
 router.post('/:id/like', authMiddleware, toggleLikePost);
+router.post('/:id/comment', authMiddleware, commentPost);
 
 module.exports = router;

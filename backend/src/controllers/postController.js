@@ -160,6 +160,44 @@ const toggleLikePost = async (req, res) => {
     }
 };
 
+const commentPost = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const { id } = req.params
+        const { content } = req.body;
+
+        if (!content?.trim())
+            return res.status(400).json({ message: 'Nội dung bình luận không được để trống.' });
+
+        const post = await Post.findById(id).select('user');
+        if (!post)
+            return res.status(404).json({ message: 'Không tìm thấy bài viết.' });
+
+        const comment = await Comment.create({
+            post: id,
+            user: userId,
+            content
+        });
+
+        if (post.user.toString() !== userId.toString()) {
+            await Notification.create({
+                recipient: post.user,
+                sender: userId,
+                type: 'comment',
+                post: id
+            });
+        }
+
+        return res.status(201).json({
+            success: true,
+            message: 'Thêm bình luận thành công.',
+            data: comment
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 module.exports = {
     createPost,
     getAllPosts,
@@ -167,4 +205,5 @@ module.exports = {
     updatePost,
     deletePost,
     toggleLikePost,
+    commentPost,
 };
