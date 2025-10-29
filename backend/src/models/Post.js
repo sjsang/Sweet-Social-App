@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const postSchema = new mongoose.Schema({
     user: {
@@ -14,6 +14,9 @@ const postSchema = new mongoose.Schema({
         type: String,
         default: '',
     },
+    imagePublicId: { 
+        type: String 
+    },
     likes: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -22,4 +25,4 @@ const postSchema = new mongoose.Schema({
     ]
 }, { timestamps: true });
 
-module.exports = mongoose.model('Post', postSchema);
+export default mongoose.model('Post', postSchema);

@@ -1,7 +1,8 @@
-const express = require("express");
+import express from 'express';
 const router = express.Router();
-const { authMiddleware } = require('../middlewares/auth');
-const {
+import upload from '../config/multer.js';
+import { authMiddleware } from '../middlewares/auth.js';
+import {
     createPost,
     getAllPosts,
     getPostById,
@@ -9,16 +10,16 @@ const {
     deletePost,
     toggleLikePost,
     commentPost,
-} = require("../controllers/postController");
+} from "../controllers/postController.js";
 
 // /api/posts
 
-router.post('/', authMiddleware, createPost);
+router.post('/', authMiddleware, upload.single('image'), createPost);
 router.get('/', getAllPosts);
 router.get('/:id', getPostById);
-router.patch('/:id', authMiddleware, updatePost);
+router.patch('/:id', authMiddleware, upload.single('image'), updatePost);
 router.delete('/:id', authMiddleware, deletePost);
 router.post('/:id/like', authMiddleware, toggleLikePost);
 router.post('/:id/comment', authMiddleware, commentPost);
 
-module.exports = router;
+export default router;

@@ -1,6 +1,6 @@
-const bcrypt = require('bcryptjs');
-const User = require('../models/User');
-const generateToken = require('../utils/generateToken')
+import bcrypt from 'bcryptjs'
+import User from '../models/User.js';
+import generateToken from '../utils/generateToken.js';
 
 const registerUser = async (req, res) => {
     try {
@@ -80,7 +80,7 @@ const getCurrentUser = async (req, res) => {
     }
 };
 
-module.exports = {
+export {
     registerUser,
     loginUser,
     getCurrentUser,

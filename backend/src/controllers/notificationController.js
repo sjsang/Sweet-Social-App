@@ -1,4 +1,4 @@
-const Notification = require('../models/Notification');
+import Notification from '../models/Notification.js';
 
 const getNotifications = async (req, res) => {
     try {
@@ -83,7 +83,7 @@ const deleteNotification = async (req, res) => {
     }
 };
 
-module.exports = {
+export {
     getNotifications,
     markAsRead,
     markAllAsRead,

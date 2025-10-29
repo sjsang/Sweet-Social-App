@@ -1,18 +1,22 @@
-const Post = require('../models/Post');
-const Comment = require('../models/Comment');
-const Notification = require('../models/Notification');
+import Post from '../models/Post.js';
+import Comment from '../models/Comment.js';
+import Notification from '../models/Notification.js';
+
+import cloudinary from '../config/cloudinary.js';
 
 const createPost = async (req, res) => {
     try {
         const userId = req.userId;
-        const { content, image } = req.body;
+        const { content } = req.body;
+        const image = req.file ? req.file.path : null;
 
         if (!content && !image)
             return res.status(400).json({ message: 'Bài viết phải có nội dung hoặc hình ảnh.' });
 
         const post = await Post.create({
             user: userId,
-            content, image
+            content,
+            image
         });
 
         return res.status(201).json({
@@ -88,11 +92,15 @@ const updatePost = async (req, res) => {
     try {
         const userId = req.userId;
         const { id } = req.params;
-        const { content, image } = req.body;
+        const { content } = req.body;
+        const image = req.file ? req.file.path : undefined;
+
+        const updateData = { content };
+        if (image) updateData.image = image;
 
         const updatedPost = await Post.findOneAndUpdate(
             { _id: id, user: userId },
-            { content, image },
+            updateData,
             { new: true }
         );
 
@@ -120,6 +128,18 @@ const deletePost = async (req, res) => {
 
         await Comment.deleteMany({ post: id });
         await Notification.deleteMany({ post: id });
+
+        if (deletedPost.image) {
+            try {
+                const segments = deletedPost.image.split('/');
+                const lastTwo = segments.slice(-2); // ['Sweet_Social_App', 'abc123.jpg']
+                const publicId = lastTwo.join('/').split('.')[0]; // => 'Sweet_Social_App/abc123'
+
+                await cloudinary.uploader.destroy(publicId);
+            } catch (err) {
+                console.warn('Không thể xóa ảnh Cloudinary:', err.message);
+            }
+        }
 
         return res.status(200).json({
             success: true,
@@ -210,7 +230,7 @@ const commentPost = async (req, res) => {
     }
 }
 
-module.exports = {
+export {
     createPost,
     getAllPosts,
     getPostById,

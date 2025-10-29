@@ -1,7 +1,7 @@
-const User = require('../models/User');
-const Post = require('../models/Post');
-const Comment = require('../models/Comment');
-const Notification = require('../models/Notification');
+import User from '../models/User.js';
+import Post from '../models/Post.js';
+import Comment from '../models/Comment.js';
+import Notification from '../models/Notification.js';
 
 const searchUsers = async (req, res) => {
     try {
@@ -177,7 +177,7 @@ const toggleFollow = async (req, res) => {
     }
 };
 
-module.exports = {
+export {
     searchUsers,
     getUserById,
     updateUser,

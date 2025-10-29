@@ -1,14 +1,14 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const { authMiddleware } = require('../middlewares/auth');
-const {
+import { authMiddleware } from '../middlewares/auth.js';
+import {
     updateComment,
     deleteComment,
-} = require("../controllers/commentController");
+} from "../controllers/commentController.js";
 
 // /api/comments
 
 router.patch('/:id', authMiddleware, updateComment);
 router.delete('/:id', authMiddleware, deleteComment);
 
-module.exports = router;
+export default router;

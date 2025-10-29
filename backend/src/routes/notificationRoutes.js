@@ -1,12 +1,12 @@
-const express = require('express');
+import express from "express";
 const router = express.Router();
-const {
+import { authMiddleware } from '../middlewares/auth.js';
+import {
     getNotifications,
     markAsRead,
     markAllAsRead,
     deleteNotification,
-} = require('../controllers/notificationController');
-const { authMiddleware } = require('../middlewares/auth');
+} from '../controllers/notificationController.js';
 
 // /api/notifications
 
@@ -15,4 +15,4 @@ router.patch('/:id/read', authMiddleware, markAsRead);
 router.patch('/read-all', authMiddleware, markAllAsRead);
 router.delete('/:id', authMiddleware, deleteNotification);
 
-module.exports = router;
+export default router;

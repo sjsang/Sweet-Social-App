@@ -1,13 +1,13 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const { authMiddleware } = require('../middlewares/auth');
-const {
+import { authMiddleware } from '../middlewares/auth.js';
+import {
     searchUsers,
     getUserById,
     updateUser,
     deleteUser,
     toggleFollow,
-} = require("../controllers/userController");
+} from "../controllers/userController.js";
 
 // /api/users
 
@@ -17,4 +17,4 @@ router.patch('/:id', authMiddleware, updateUser);
 router.delete('/:id', authMiddleware, deleteUser);
 router.post('/:id/follow', authMiddleware, toggleFollow);
 
-module.exports = router;
+export default router;
