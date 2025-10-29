@@ -118,36 +118,39 @@ const updatePost = async (req, res) => {
 };
 
 const deletePost = async (req, res) => {
-    try {
-        const userId = req.userId;
-        const { id } = req.params;
+  try {
+    const userId = req.userId;
+    const { id } = req.params;
 
-        const deletedPost = await Post.findOneAndDelete({ _id: id, user: userId });
-        if (!deletedPost)
-            return res.status(404).json({ message: 'Không tìm thấy bài viết hoặc không có quyền xóa.' });
+    const deletedPost = await Post.findOneAndDelete({ _id: id, user: userId });
+    if (!deletedPost)
+      return res
+        .status(404)
+        .json({ message: "Không tìm thấy bài viết hoặc không có quyền xóa." });
 
-        await Comment.deleteMany({ post: id });
-        await Notification.deleteMany({ post: id });
+    await Comment.deleteMany({ post: id });
+    await Notification.deleteMany({ post: id });
 
-        if (deletedPost.image) {
-            try {
-                const segments = deletedPost.image.split('/');
-                const lastTwo = segments.slice(-2); // ['Sweet_Social_App', 'abc123.jpg']
-                const publicId = lastTwo.join('/').split('.')[0]; // => 'Sweet_Social_App/abc123'
+    if (deletedPost.image) {
+      try {
+        // Ví dụ: https://res.cloudinary.com/demo/image/upload/v123456789/Sweet_Social_App/posts/abc123.jpg
+        const segments = deletedPost.image.split("/");
+        const folderAndFile = segments.slice(-3).join("/"); // Sweet_Social_App/posts/abc123.jpg
+        const publicId = folderAndFile.split(".")[0]; // Sweet_Social_App/posts/abc123
 
-                await cloudinary.uploader.destroy(publicId);
-            } catch (err) {
-                console.warn('Không thể xóa ảnh Cloudinary:', err.message);
-            }
-        }
-
-        return res.status(200).json({
-            success: true,
-            message: `Xóa bài viết thành công.`,
-        });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+        await cloudinary.uploader.destroy(publicId);
+      } catch (err) {
+        console.warn("Không thể xóa ảnh Cloudinary:", err.message);
+      }
     }
+
+    return res.status(200).json({
+      success: true,
+      message: "Xóa bài viết thành công.",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 const toggleLikePost = async (req, res) => {

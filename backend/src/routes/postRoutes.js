@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import upload from '../config/multer.js';
+import { uploadPostImage } from "../middlewares/upload.js";
 import { authMiddleware } from '../middlewares/auth.js';
 import {
     createPost,
@@ -14,10 +14,10 @@ import {
 
 // /api/posts
 
-router.post('/', authMiddleware, upload.single('image'), createPost);
+router.post('/', authMiddleware, uploadPostImage.single('image'), createPost);
 router.get('/', getAllPosts);
 router.get('/:id', getPostById);
-router.patch('/:id', authMiddleware, upload.single('image'), updatePost);
+router.patch('/:id', authMiddleware, uploadPostImage.single('image'), updatePost);
 router.delete('/:id', authMiddleware, deletePost);
 router.post('/:id/like', authMiddleware, toggleLikePost);
 router.post('/:id/comment', authMiddleware, commentPost);
