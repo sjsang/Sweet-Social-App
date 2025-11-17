@@ -24,7 +24,9 @@ const PostCard = ({ post }) => {
     }
 
     return (
-        <Card className='w-full md:w-2/3 lg:w-1/3 mx-auto mb-3 '>
+        <Card className='w-full md:w-2/3 lg:w-1/3 mx-auto mb-3 shadow-0'
+            sx={{boxShadow: 'none'}}
+        >
             <CardHeader
                 avatar={
                     <Avatar alt="User avatar" src={post.user.avatar} sx={{ width: 42, height: 42 }} />

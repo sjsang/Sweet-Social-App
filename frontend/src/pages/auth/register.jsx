@@ -1,18 +1,13 @@
 import api from "../../api/axiosConfig";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-    Box,
-    Button,
-    TextField,
-    Typography,
-    Container,
-    Paper,
-    Grid,
-} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-const Register = () => {
+export default function Register() {
     const navigate = useNavigate();
+
+    const [error, setError] = useState("");
+
     const [form, setForm] = useState({
         name: "",
         username: "",
@@ -20,132 +15,162 @@ const Register = () => {
         password: "",
         confirmPassword: "",
     });
-    const [error, setError] = useState("");
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
+        setError("");
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { name, username, email, password, confirmPassword } = form;
 
-        if (!name || !username || !email || !password || !confirmPassword) {
-            return setError("Vui lòng điền đầy đủ thông tin.");
+        if (form.password !== form.confirmPassword) {
+            setError("Mật khẩu không trùng khớp!");
+            return;
         }
 
-        if (password !== confirmPassword) {
-            return setError("Mật khẩu nhập lại không khớp.");
-        }
-
-        setError("");
         try {
-            const res = await api.post('/auth/register', { name, username, email, password });
+            const res = await api.post("/auth/register", form);
+
             if (res.data?.success) {
-                alert(res.data.message || "Đăng ký thành công!");
-                navigate('/login');
+                navigate("/login");
             } else {
-                setError(res.data?.message || "Đăng ký thất bại.");
+                setError(res.data?.message || "Đăng ký thất bại!");
             }
-        } catch (error) {
-            console.error("Lỗi khi đăng ký:", error);
-            setError(error.response?.data?.message || "Đã xảy ra lỗi. Vui lòng thử lại sau.");
+        } catch (err) {
+            console.error("Lỗi khi đăng ký:", err);
+            setError(
+                err.response?.data?.message ||
+                "Đã xảy ra lỗi. Vui lòng thử lại sau."
+            );
         }
     };
 
     const handleNavigate = () => navigate("/login");
 
     return (
-        <Container maxWidth="sm" sx={{ mt: 8 }}>
-            <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
-                <Typography variant="h5" align="center" gutterBottom>
-                    Đăng ký tài khoản
-                </Typography>
+        <div className="min-h-screen flex">
+            <div className="w-full md:w-2/3 flex flex-col justify-center px-10 md:px-80">
+                <div className="mb-10">
+                    <div className="w-15 h-15 rounded-lg mb-6">
+                        <img src="/the_s_logo.png" alt="main logo" />
+                    </div>
+                    <h1 className="text-3xl font-semibold text-gray-800">
+                        Đăng ký tài khoản
+                    </h1>
+                    <p className="text-sm text-gray-500 mt-2">
+                        Bạn đã có tài khoản?
+                        <span
+                            className="text-indigo-600 ml-1 hover:underline cursor-pointer"
+                            onClick={handleNavigate}
+                        >
+                            Đăng nhập
+                        </span>
+                    </p>
+                </div>
 
-                {error && (
-                    <Typography
-                        color="error"
-                        align="center"
-                        sx={{ mb: 2, fontSize: 14 }}
-                    >
-                        {error}
-                    </Typography>
-                )}
+                <form onSubmit={handleSubmit} className="space-y-5">
+                    <div>
+                        <label className="block font-medium mb-1">Họ và tên</label>
+                        <input
+                            type="text"
+                            name="name"
+                            value={form.name}
+                            onChange={handleChange}
+                            required
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500"
+                        />
+                    </div>
 
-                <Box component="form" onSubmit={handleSubmit}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <TextField
-                                label="Họ và tên"
-                                name="name"
-                                fullWidth
-                                value={form.name}
-                                onChange={handleChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                label="Tên đăng nhập"
-                                name="username"
-                                fullWidth
-                                value={form.username}
-                                onChange={handleChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                label="Email"
-                                name="email"
-                                type="email"
-                                fullWidth
-                                value={form.email}
-                                onChange={handleChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                label="Mật khẩu"
+                    <div>
+                        <label className="block font-medium mb-1">Tên người dùng</label>
+                        <input
+                            type="text"
+                            name="username"
+                            value={form.username}
+                            onChange={handleChange}
+                            required
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block font-medium mb-1">Email</label>
+                        <input
+                            type="email"
+                            name="email"
+                            value={form.email}
+                            onChange={handleChange}
+                            required
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block font-medium mb-1">Mật khẩu</label>
+                        <div className="relative">
+                            <input
+                                type={showPassword ? "text" : "password"}
                                 name="password"
-                                type="password"
-                                fullWidth
                                 value={form.password}
                                 onChange={handleChange}
+                                required
+                                className="w-full border border-gray-300 rounded-lg px-3 py-2 pr-10 
+                       focus:border-indigo-500 focus:ring-indigo-500"
                             />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                label="Nhập lại mật khẩu"
+                            <span
+                                className="absolute right-3 top-2.5 cursor-pointer text-gray-300"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="block font-medium mb-1">Nhập lại mật khẩu</label>
+                        <div className="relative">
+                            <input
+                                type={showConfirmPassword ? "text" : "password"}
                                 name="confirmPassword"
-                                type="password"
-                                fullWidth
                                 value={form.confirmPassword}
                                 onChange={handleChange}
+                                required
+                                className="w-full border border-gray-300 rounded-lg px-3 py-2 pr-10 
+                       focus:border-indigo-500 focus:ring-indigo-500"
                             />
-                        </Grid>
-                    </Grid>
+                            <span
+                                className="absolute right-3 top-2.5 cursor-pointer text-gray-300"
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            >
+                                {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                            </span>
+                        </div>
+                    </div>
 
-                    <Button
+                    {error && (
+                        <p className="text-red-600 text-sm">{error}</p>
+                    )}
+
+                    <button
                         type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        sx={{ mt: 3 }}
+                        className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-lg transition"
                     >
                         Đăng ký
-                    </Button>
+                    </button>
+                </form>
+            </div>
 
-                    <Typography
-                        variant="body2"
-                        align="center"
-                        sx={{ mt: 2, cursor: "pointer" }}
-                        onClick={handleNavigate}
-                    >
-                        Đã có tài khoản? <b>Đăng nhập ngay</b>
-                    </Typography>
-                </Box>
-            </Paper>
-        </Container>
+            <div className="hidden md:flex w-1/3">
+                <img
+                    src="/register_screen_banner.jpg"
+                    alt="workspace"
+                    className="w-full h-full object-cover"
+                />
+            </div>
+        </div>
     );
-};
-
-export default Register;
+}
