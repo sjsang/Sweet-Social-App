@@ -1,11 +1,15 @@
 import api from "../../api/axiosConfig";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 import GoogleLoginButton from "./GoogleLoginButton";
 
 export default function Login() {
+    useEffect(() => {
+        localStorage.removeItem("token");
+    }, []);
+
     const navigate = useNavigate();
 
     const [form, setForm] = useState({
@@ -51,10 +55,7 @@ export default function Login() {
     return (
         <div className="min-h-screen flex">
             <div className="w-full md:w-2/3 flex flex-col justify-center px-10 md:px-80">
-                <div className="mb-10">
-                    <div className="w-15 h-15 rounded-lg mb-6">
-                        <img src="/the_s_logo.png" alt="main logo" />
-                    </div>
+                <div className="mb-7">
                     <h1 className="text-3xl font-semibold text-gray-800">
                         Đăng nhập
                     </h1>
@@ -69,7 +70,7 @@ export default function Login() {
                     </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-3">
                     <div>
                         <label className="block font-medium mb-1">Tên người dùng</label>
                         <input
@@ -117,7 +118,7 @@ export default function Login() {
                     </button>
                 </form>
 
-                <div className="flex items-center my-5">
+                <div className="flex items-center my-3">
                     <hr className="grow border-gray-300" />
                     <span className="px-3 text-gray-500">hoặc</span>
                     <hr className="grow border-gray-300" />

@@ -27,7 +27,7 @@ export default function GoogleLoginButton() {
     };
 
     useEffect(() => {
-        const clientId = '1091268876330-huas4d5m0pu9b9pvrgrt4esed6k2969u.apps.googleusercontent.com';
+        const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
         window.google.accounts.id.initialize({
             client_id: clientId,

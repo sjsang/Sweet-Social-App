@@ -56,10 +56,7 @@ export default function Register() {
     return (
         <div className="min-h-screen flex">
             <div className="w-full md:w-2/3 flex flex-col justify-center px-10 md:px-80">
-                <div className="mb-10">
-                    <div className="w-15 h-15 rounded-lg mb-6">
-                        <img src="/the_s_logo.png" alt="main logo" />
-                    </div>
+                <div className="mb-7">
                     <h1 className="text-3xl font-semibold text-gray-800">
                         Đăng ký tài khoản
                     </h1>
@@ -74,7 +71,7 @@ export default function Register() {
                     </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-3">
                     <div>
                         <label className="block font-medium mb-1">Họ và tên</label>
                         <input
@@ -165,7 +162,7 @@ export default function Register() {
                     </button>
                 </form>
 
-                <div className="flex items-center my-5">
+                <div className="flex items-center my-3">
                     <hr className="grow border-gray-300" />
                     <span className="px-3 text-gray-500">hoặc</span>
                     <hr className="grow border-gray-300" />
