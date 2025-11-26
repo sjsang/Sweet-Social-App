@@ -118,9 +118,9 @@ export default function Login() {
                 </form>
 
                 <div className="flex items-center my-5">
-                    <hr className="flex-grow border-gray-300" />
+                    <hr className="grow border-gray-300" />
                     <span className="px-3 text-gray-500">hoặc</span>
-                    <hr className="flex-grow border-gray-300" />
+                    <hr className="grow border-gray-300" />
                 </div>
 
                 <GoogleLoginButton />
