@@ -94,7 +94,6 @@ const loginWithGoogle = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: 'Đăng nhập bằng Google thành công.',
             data: {
                 _id: user._id,
                 username: user.username,
