@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
+import GoogleLoginButton from "./GoogleLoginButton";
+
 export default function Register() {
     const navigate = useNavigate();
 
@@ -162,6 +164,14 @@ export default function Register() {
                         Đăng ký
                     </button>
                 </form>
+
+                <div className="flex items-center my-5">
+                    <hr className="flex-grow border-gray-300" />
+                    <span className="px-3 text-gray-500">hoặc</span>
+                    <hr className="flex-grow border-gray-300" />
+                </div>
+
+                <GoogleLoginButton />
             </div>
 
             <div className="hidden md:flex w-1/3">

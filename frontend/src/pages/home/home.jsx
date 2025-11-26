@@ -9,10 +9,12 @@ const Home = () => {
 
     const navigate = useNavigate();
 
-    const token = localStorage.getItem('token');
-    if (!token) {
-        navigate('/login');
-    }
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login');
+        }
+    }, [navigate]);
 
     useEffect(() => {
         fetchPosts();
@@ -33,6 +35,7 @@ const Home = () => {
 
     return (
         <>
+            <h1>Home page</h1>
             {
                 posts.map((post, index) => <PostCard key={index} post={post} />)
             }

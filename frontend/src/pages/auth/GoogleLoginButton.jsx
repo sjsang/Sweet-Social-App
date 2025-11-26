@@ -1,0 +1,52 @@
+import { useEffect } from "react";
+import api from "../../api/axiosConfig";
+import { useNavigate } from "react-router-dom";
+
+export default function GoogleLoginButton() {
+    const navigate = useNavigate();
+
+    const handleGoogleResponse = async (response) => {
+        try {
+            const res = await api.post("/auth/google", {
+                idToken: response.credential
+            });
+
+            if (res.data.success) {
+                localStorage.setItem("token", res.data.data.token);
+                navigate("/");
+            } else {
+                alert(res.data.message);
+            }
+        } catch (err) {
+            if (err.response && err.response.data?.message) {
+                alert(err.response.data.message);
+            } else {
+                console.error("Google login error:", err);
+            }
+        }
+    };
+
+    useEffect(() => {
+        const clientId = '1091268876330-huas4d5m0pu9b9pvrgrt4esed6k2969u.apps.googleusercontent.com';
+
+        window.google.accounts.id.initialize({
+            client_id: clientId,
+            callback: handleGoogleResponse,
+        });
+
+        window.google.accounts.id.renderButton(
+            document.getElementById("google-login-btn"),
+            {
+                theme: "outline",
+                size: "large",
+                width: "100%",
+            }
+        );
+    }, []);
+
+    return (
+        <div>
+            <div id="google-login-btn"></div>
+        </div>
+    );
+}

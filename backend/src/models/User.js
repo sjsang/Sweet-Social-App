@@ -22,6 +22,14 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 6,
     },
+    provider: {
+        type: String,
+        enum: ['local', 'google'],
+        default: 'local',
+    },
+    providerId: {
+        type: String,
+    },
     avatar: {
         type: String,
         default: '',
