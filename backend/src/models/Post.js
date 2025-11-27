@@ -14,8 +14,8 @@ const postSchema = new mongoose.Schema({
         type: String,
         default: '',
     },
-    imagePublicId: { 
-        type: String 
+    imagePublicId: {
+        type: String
     },
     likes: [
         {

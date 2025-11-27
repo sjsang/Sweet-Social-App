@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-import GoogleLoginButton from "./GoogleLoginButton";
+import GoogleLoginButton from "../../components/auth/GoogleLoginButton";
 
 export default function Register() {
     const navigate = useNavigate();
@@ -37,10 +37,10 @@ export default function Register() {
         try {
             const res = await api.post("/auth/register", form);
 
-            if (res.data?.success) {
+            if (res.data.success) {
                 navigate("/login");
             } else {
-                setError(res.data?.message || "Đăng ký thất bại!");
+                setError(res.data.message || "Đăng ký thất bại!");
             }
         } catch (err) {
             console.error("Lỗi khi đăng ký:", err);

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-import GoogleLoginButton from "./GoogleLoginButton";
+import GoogleLoginButton from "../../components/auth/GoogleLoginButton";
 
 export default function Login() {
     useEffect(() => {
@@ -36,11 +36,11 @@ export default function Login() {
         try {
             const res = await api.post("/auth/login", form);
 
-            if (res.data?.success) {
+            if (res.data.success) {
                 localStorage.setItem("token", res.data.data.token);
                 navigate("/");
             } else {
-                setError(res.data?.message || "Đăng nhập thất bại.");
+                setError(res.data.message || "Đăng nhập thất bại.");
             }
         } catch (err) {
             console.error("Lỗi khi đăng nhập:", err);

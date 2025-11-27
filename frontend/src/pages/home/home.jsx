@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import api from "../../api/axiosConfig";
 
-import PostCard from "./components/postCard";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
     const [posts, setPosts] = useState([]);
 
     const navigate = useNavigate();
+
+    const handleNavigate = (target) => navigate(target);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -23,10 +24,10 @@ const Home = () => {
     const fetchPosts = async () => {
         try {
             const res = await api.get('/posts');
-            if (res.data?.success) {
+            if (res.data.success) {
                 setPosts(res.data.data);
             } else {
-                console.error("Lỗi khi lấy bài viết:", res.data?.message);
+                console.error("Lỗi khi lấy bài viết:", res.data.message);
             }
         } catch (error) {
             console.error("Lỗi khi lấy bài viết:", error);
@@ -36,9 +37,14 @@ const Home = () => {
     return (
         <>
             <h1>Home page</h1>
-            {
-                posts.map((post, index) => <PostCard key={index} post={post} />)
-            }
+            <p
+                className="text-red-600 ml-1 hover:underline cursor-pointer"
+                onClick={() => handleNavigate('/login')}>Đăng xuất
+            </p>
+            <p
+                className="text-indigo-600 ml-1 hover:underline cursor-pointer"
+                onClick={() => handleNavigate('/posts/new')}>Tạo bài viết
+            </p>
         </>
     );
 };
