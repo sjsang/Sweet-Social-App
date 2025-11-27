@@ -13,7 +13,7 @@ const timeAgo = (dateString) => {
     return `${Math.floor(diff / 86400)} ngày trước`;
 };
 
-const PostItem = ({ post, currentUser }) => {
+const PostItem = ({ post, currentUser, onDeletePost }) => {
     const [isLike, setIsLike] = useState(post.likes.includes(currentUser));
     const [likeCount, setLikeCount] = useState(post.likes.length);
     const [loading, setLoading] = useState(false);
@@ -36,6 +36,11 @@ const PostItem = ({ post, currentUser }) => {
         }
     };
 
+    const handleClickTrashIcon = () => {
+        if (confirm('Bạn có chắc chắn muốn xóa bài viết?'))
+            onDeletePost(post._id);
+    }
+
     return (
         <div className='mb-5 space-y-2'>
             <div className="flex items-center gap-2 ms-2">
@@ -46,6 +51,14 @@ const PostItem = ({ post, currentUser }) => {
                     <strong>{post.user.username}</strong>
                     <p className='text-xs text-gray-500'>{timeAgo(post.createdAt)}</p>
                 </div>
+                {
+                    currentUser === post.user._id
+                        ? <i
+                            className="fa-regular fa-trash-can ms-auto me-2 text-red-500 cursor-pointer"
+                            onClick={handleClickTrashIcon}
+                        ></i>
+                        : ''
+                }
             </div>
             {post.content && <p className='ms-2'>{post.content}</p>}
             {post.image && <img src={post.image} className="md:rounded-lg" />}
