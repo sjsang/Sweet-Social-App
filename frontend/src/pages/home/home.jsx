@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../../api/axiosConfig";
 
 import { useNavigate } from "react-router-dom";
+import PostList from "../../components/posts/PostList";
 
 const Home = () => {
     const [posts, setPosts] = useState([]);
@@ -9,6 +10,8 @@ const Home = () => {
     const navigate = useNavigate();
 
     const handleNavigate = (target) => navigate(target);
+
+    const currentUser = localStorage.getItem('userId');
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -35,7 +38,7 @@ const Home = () => {
     }
 
     return (
-        <div>
+        <div className="md:w-1/3 m-auto">
             <h1>Home page</h1>
             <p
                 className="text-red-600 ml-1 hover:underline cursor-pointer"
@@ -45,6 +48,8 @@ const Home = () => {
                 className="text-indigo-600 ml-1 hover:underline cursor-pointer"
                 onClick={() => handleNavigate('/posts/new')}>Tạo bài viết
             </p>
+
+            < PostList posts={posts} currentUser={currentUser} />
         </div>
     );
 };

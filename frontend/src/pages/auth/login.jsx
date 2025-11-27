@@ -8,6 +8,7 @@ import GoogleLoginButton from "../../components/auth/GoogleLoginButton";
 export default function Login() {
     useEffect(() => {
         localStorage.removeItem("token");
+        localStorage.removeItem("userId");
     }, []);
 
     const navigate = useNavigate();
@@ -38,6 +39,7 @@ export default function Login() {
 
             if (res.data.success) {
                 localStorage.setItem("token", res.data.data.token);
+                localStorage.setItem("userId", res.data.data._id);
                 navigate("/");
             } else {
                 setError(res.data.message || "Đăng nhập thất bại.");

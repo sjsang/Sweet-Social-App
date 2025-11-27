@@ -13,6 +13,7 @@ export default function GoogleLoginButton() {
 
             if (res.data.success) {
                 localStorage.setItem("token", res.data.data.token);
+                localStorage.setItem("userId", res.data.data._id);
                 navigate("/");
             } else {
                 alert(res.data.message);
