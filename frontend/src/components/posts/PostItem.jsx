@@ -16,24 +16,29 @@ const timeAgo = (dateString) => {
 const PostItem = ({ post, currentUser }) => {
     const [isLike, setIsLike] = useState(post.likes.includes(currentUser));
     const [likeCount, setLikeCount] = useState(post.likes.length);
+    const [loading, setLoading] = useState(false);
 
     const handleLike = async () => {
+        if (loading) return;
+
+        setLoading(true);
+
         try {
             const res = await api.post(`/posts/${post._id}/like`);
             if (res.data.success) {
-                // toggle isLike
                 setIsLike(!isLike);
-                // cập nhật số lượng likes
                 setLikeCount(res.data.data.likes.length);
             }
         } catch (error) {
             console.log('Lỗi khi thích/bỏ thích bài viết: ', error);
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className='mb-5 space-y-3'>
-            <div className="flex items-center gap-2">
+        <div className='mb-5 space-y-2'>
+            <div className="flex items-center gap-2 ms-2">
                 <Avatar
                     src={post.user.avatar}
                 />
@@ -42,9 +47,9 @@ const PostItem = ({ post, currentUser }) => {
                     <p className='text-xs text-gray-500'>{timeAgo(post.createdAt)}</p>
                 </div>
             </div>
-            {post.content && <p>{post.content}</p>}
-            {post.image && <img src={post.image} className="rounded-xl" />}
-            <div className="flex gap-3">
+            {post.content && <p className='ms-2'>{post.content}</p>}
+            {post.image && <img src={post.image} className="md:rounded-lg" />}
+            <div className="flex gap-3 ms-2">
                 <div className='flex items-center gap-1'>
                     <i
                         className={`fa-heart text-2xl cursor-pointer ${isLike ? 'fa-solid text-red-500' : 'fa-regular'}`}
