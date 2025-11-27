@@ -72,7 +72,7 @@ const getPostById = async (req, res) => {
             return res.status(404).json({ message: 'Không tìm thấy bài viết.' });
 
         const postComments = await Comment.find({ post: id })
-            .populate('user', 'username')
+            .populate('user', 'username avatar')
             .sort({ createdAt: -1 });
 
         return res.status(200).json({
@@ -80,7 +80,7 @@ const getPostById = async (req, res) => {
             message: `Lấy chi tiết bài viết thành công.`,
             data: {
                 post: post,
-                comment: postComments
+                comments: postComments
             }
         });
     } catch (error) {
@@ -223,10 +223,12 @@ const commentPost = async (req, res) => {
             });
         }
 
+        const populatedComment = await comment.populate('user', 'username avatar');
+
         return res.status(201).json({
             success: true,
             message: 'Thêm bình luận thành công.',
-            data: comment
+            data: populatedComment
         });
     } catch (error) {
         res.status(500).json({ message: error.message });

@@ -1,5 +1,6 @@
 import Avatar from '@mui/material/Avatar';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../../api/axiosConfig';
 
 const timeAgo = (dateString) => {
@@ -17,6 +18,10 @@ const PostItem = ({ post, currentUser, onDeletePost }) => {
     const [isLike, setIsLike] = useState(post.likes.includes(currentUser));
     const [likeCount, setLikeCount] = useState(post.likes.length);
     const [loading, setLoading] = useState(false);
+
+    const navigate = useNavigate();
+
+    const goToDetail = () => navigate(`/posts/${post._id}`);
 
     const handleLike = async () => {
         if (loading) return;
@@ -71,7 +76,10 @@ const PostItem = ({ post, currentUser, onDeletePost }) => {
                     <span className="font-medium">{likeCount}</span>
                 </div>
                 <div className='flex items-center gap-1'>
-                    <i className="fa-regular fa-comment text-2xl cursor-pointer"></i>
+                    <i
+                        className="fa-regular fa-comment text-2xl cursor-pointer"
+                        onClick={goToDetail}
+                    ></i>
                     <span className="font-medium">{post.commentCount}</span>
                 </div>
             </div>

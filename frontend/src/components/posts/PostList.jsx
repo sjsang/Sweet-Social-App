@@ -27,7 +27,8 @@ const PostList = ({ posts, currentUser }) => {
                     allPosts.length > 0
                         ? (allPosts.map(post =>
                             <PostItem
-                                key={post._id} post={post}
+                                key={post._id}
+                                post={post}
                                 currentUser={currentUser}
                                 onDeletePost={handleDeletePost}
                             />))
