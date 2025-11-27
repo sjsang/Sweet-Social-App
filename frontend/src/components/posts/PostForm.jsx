@@ -20,8 +20,8 @@ const PostForm = ({ onSubmit, loading }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!form.content) {
-            setError('Nội dung bài viết không được để trống!');
+        if (!form.content && !form.image) {
+            setError('Bài viết phải có nội dung hoặc hình ảnh!');
             return;
         }
 

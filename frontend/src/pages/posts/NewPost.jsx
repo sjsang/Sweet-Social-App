@@ -14,7 +14,8 @@ const NewPost = () => {
 
         try {
             const formData = new FormData();
-            formData.append('content', form.content);
+            if (form.content)
+                formData.append('content', form.content);
             if (form.image)
                 formData.append('image', form.image);
 
