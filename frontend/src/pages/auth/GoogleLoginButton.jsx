@@ -39,7 +39,6 @@ export default function GoogleLoginButton() {
             {
                 theme: "outline",
                 size: "large",
-                width: "100%",
             }
         );
     }, []);
