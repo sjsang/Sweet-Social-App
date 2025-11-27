@@ -35,7 +35,7 @@ const Home = () => {
     }
 
     return (
-        <>
+        <div>
             <h1>Home page</h1>
             <p
                 className="text-red-600 ml-1 hover:underline cursor-pointer"
@@ -45,7 +45,7 @@ const Home = () => {
                 className="text-indigo-600 ml-1 hover:underline cursor-pointer"
                 onClick={() => handleNavigate('/posts/new')}>Tạo bài viết
             </p>
-        </>
+        </div>
     );
 };
 

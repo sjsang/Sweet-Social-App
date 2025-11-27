@@ -29,27 +29,25 @@ const PostForm = ({ onSubmit, loading }) => {
     }
 
     return (
-        <>
-            <form onSubmit={handleSubmit} className="space-y-3">
-                <textarea
-                    className="w-full min-h-50 outline-0"
-                    placeholder="Bạn đang nghĩ gì?"
-                    value={form.content}
-                    onChange={handleChange}
-                ></textarea>
-                <input
-                    type="file"
-                    onChange={handleFileChange}
-                />
-                {error && (
-                    <p className="text-red-600 text-sm">{error}</p>
-                )}
-                <button
-                    className={`w-full border ${loading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} `}
-                    type="submit"
-                >Đăng</button>
-            </form>
-        </>
+        <form onSubmit={handleSubmit} className="space-y-3">
+            <textarea
+                className="w-full min-h-50 outline-0"
+                placeholder="Bạn đang nghĩ gì?"
+                value={form.content}
+                onChange={handleChange}
+            ></textarea>
+            <input
+                type="file"
+                onChange={handleFileChange}
+            />
+            {error && (
+                <p className="text-red-600 text-sm">{error}</p>
+            )}
+            <button
+                className={`w-full border ${loading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} `}
+                type="submit"
+            >Đăng</button>
+        </form>
     );
 };
 

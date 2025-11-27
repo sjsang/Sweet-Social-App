@@ -33,12 +33,10 @@ const NewPost = () => {
         }
     }
     return (
-        <>
-            <div className="w-100 m-auto space-y-3">
-                <h1 className="text-3xl font-semibold text-gray-800">Tạo bài viết</h1>
-                < PostForm onSubmit={handleCreatePost} loading={loading} />
-            </div>
-        </>
+        <div className="w-100 m-auto space-y-3">
+            <h1 className="text-3xl font-semibold text-gray-800">Tạo bài viết</h1>
+            < PostForm onSubmit={handleCreatePost} loading={loading} />
+        </div>
     );
 };
 
