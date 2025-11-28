@@ -6,14 +6,12 @@ import NewPost from "./pages/posts/NewPost";
 import PostDetail from "./components/posts/PostDetail";
 
 function App() {
-  const currentUser = localStorage.getItem('userId');
-
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/" element={<Home currentUser={currentUser} />} />
-      <Route path="/posts/:id" element={<PostDetail currentUser={currentUser} />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/posts/:id" element={<PostDetail />} />
       <Route path="/posts/new" element={<NewPost />} />
     </Routes>
   );

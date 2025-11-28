@@ -4,6 +4,7 @@ import timeAgo from "../../functions/timeAgo";
 import api from "../../api/axiosConfig";
 import PostHeader from './PostHeader';
 import Avatar from '@mui/material/Avatar';
+import PostFooter from "./PostFooter";
 
 const PostDetail = () => {
     // Lấy vị trí cũ của trang chủ 
@@ -12,6 +13,8 @@ const PostDetail = () => {
     const scrollY = location.state?.scrollY || 0;
     const navigate = useNavigate();
     const handleExit = () => navigate('/', { state: { scrollY } });
+
+    const currentUser = localStorage.getItem('userId');
 
     // Lấy chi tiết bài viết
     const { id } = useParams();
@@ -71,7 +74,7 @@ const PostDetail = () => {
                 }
             </div>
 
-            <div className="w-full md:w-1/4 md:h-screen overflow-x-hidden relative">
+            <div className="w-full md:w-1/4 md:h-screen overflow-x-hidden relative space-y-3">
                 <div className='sticky top-0 z-10 bg-white'>
                     <div className="flex justify-between">
                         <PostHeader post={post} />
@@ -80,10 +83,9 @@ const PostDetail = () => {
                             onClick={handleExit}
                         ></i>
                     </div>
+                    {post && comment && <PostFooter currentUser={currentUser} post={post} comments={postComments} />}
                     <hr className='text-gray-200' />
                 </div>
-
-                <p className='font-medium m-3'>Tất cả bình luận ({postComments.length})</p>
 
                 <div className="space-y-3 px-3">
                     {postComments && postComments.length > 0
@@ -91,7 +93,7 @@ const PostDetail = () => {
                             <div key={c._id} className="flex gap-2">
                                 <Avatar src={c.user?.avatar} sx={{ width: 28, height: 28 }} />
                                 <div>
-                                    <div className="max-w-100 bg-gray-100 py-2 px-3 rounded-xl">
+                                    <div className="max-w-100 bg-gray-200 py-2 px-3 rounded-xl">
                                         <p className="text-sm font-semibold">{c.user?.username}</p>
                                         <p>{c.content}</p>
                                     </div>
@@ -102,7 +104,7 @@ const PostDetail = () => {
                     }
                 </div>
 
-                <div className="h-15"></div>
+                <div className="h-10"></div>
 
                 <div className="fixed right-0 bottom-0 w-full md:w-1/4 p-3 bg-white border-t border-gray-200">
                     <form onSubmit={handleSubmit} className="flex">
