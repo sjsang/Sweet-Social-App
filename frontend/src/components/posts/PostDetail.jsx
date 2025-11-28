@@ -1,10 +1,9 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import timeAgo from "../../functions/timeAgo";
 import api from "../../api/axiosConfig";
 import PostHeader from './PostHeader';
-import Avatar from '@mui/material/Avatar';
 import PostFooter from "./PostFooter";
+import CommentItem from "../comments/CommentItem";
 
 const PostDetail = () => {
     // Lấy vị trí cũ của trang chủ 
@@ -57,6 +56,32 @@ const PostDetail = () => {
         }
     }
 
+    // Xóa bình luận
+    const handleDelete = async (id) => {
+        if (confirm('Bạn có chắc chắn muốn xóa bình luận này không?')) {
+            try {
+                const res = await api.delete(`/comments/${id}`);
+                if (res.data.success) {
+                    setPostComments(prev => prev.filter(c => c._id !== id));
+                }
+            } catch (error) {
+                alert(`Có lỗi khi xóa bình luận: ${error?.response?.data?.message || error.message}`);
+            }
+        }
+    }
+
+    // Sửa bình luận
+    const handleUpdate = async (id, content) => {
+        try {
+            const res = await api.patch(`/comments/${id}`, { content });
+            if (res.data.success) {
+                setPostComments(prev => prev.map(comment => comment._id === id ? { ...comment, content } : comment));
+            }
+        } catch (error) {
+            alert(`Có lỗi khi xóa bình luận: ${error?.response?.data?.message || error.message}`);
+        }
+    }
+
     return (
         <div className="flex flex-col md:flex-row">
             <div className="w-full md:w-3/4 md:h-screen flex items-center justify-center bg-neutral-950">
@@ -88,19 +113,12 @@ const PostDetail = () => {
                 </div>
 
                 <div className="space-y-3 px-3">
-                    {postComments && postComments.length > 0
-                        ? (postComments.map((c) => (
-                            <div key={c._id} className="flex gap-2">
-                                <Avatar src={c.user?.avatar} sx={{ width: 28, height: 28 }} />
-                                <div>
-                                    <div className="max-w-100 bg-gray-200 py-2 px-3 rounded-xl">
-                                        <p className="text-sm font-semibold">{c.user?.username}</p>
-                                        <p>{c.content}</p>
-                                    </div>
-                                    <span className="text-xs text-gray-500 ms-3">{timeAgo(c.createdAt)}</span>
-                                </div>
-                            </div>)))
-                        : (<p className="text-sm text-gray-500">Chưa có bình luận nào.</p>)
+                    {
+                        postComments && postComments.length > 0
+                            ? (postComments.map((c) => (
+                                <CommentItem key={c._id} comment={c} currentUser={currentUser} onClickDeleteComment={handleDelete} onUpdateComment={handleUpdate} />
+                            )))
+                            : (<p className="text-sm text-gray-500">Chưa có bình luận nào.</p>)
                     }
                 </div>
 

@@ -26,7 +26,7 @@ const PostFooter = ({ currentUser, post, comments, onCommentClick }) => {
     const commentCount = comments?.length || post?.commentCount;
 
     return (
-        <div className="flex gap-2 p-3">
+        <div className="flex gap-5 p-3">
             <div className="flex gap-1">
                 <i
                     className={`fa-heart text-2xl cursor-pointer ${isLiked ? 'fa-solid text-red-500' : 'fa-regular'}`}
