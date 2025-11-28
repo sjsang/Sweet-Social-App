@@ -33,12 +33,12 @@ const PostItem = ({ post, currentUser }) => {
     };
 
     return (
-        <div className='mb-5 space-y-2'>
+        <div className='mb-3'>
             <PostHeader post={post} />
-            {post.content && <p className='ms-2'>{post.content}</p>}
+
             {post.image && <img src={post.image} className="md:rounded-lg" />}
 
-            <div className="flex gap-3 ms-2">
+            <div className="flex gap-3 p-3">
                 <div className='flex items-center gap-1'>
                     <i
                         className={`fa-heart text-2xl cursor-pointer ${isLike ? 'fa-solid text-red-500' : 'fa-regular'}`}

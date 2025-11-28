@@ -40,9 +40,7 @@ const PostForm = ({ onSubmit, loading }) => {
                 type="file"
                 onChange={handleFileChange}
             />
-            {error && (
-                <p className="text-red-600 text-sm">{error}</p>
-            )}
+            {error && (<p className="text-red-600 text-sm">{error}</p>)}
             <button
                 className={`w-full border ${loading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} `}
                 type="submit"
