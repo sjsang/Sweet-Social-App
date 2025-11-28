@@ -49,7 +49,7 @@ const CommentItem = ({ comment, currentUser, onClickDeleteComment, onUpdateComme
             <div>
                 <div
                     ref={commentRef}
-                    className='min-w-fit bg-white shadow py-2 px-3 rounded-2xl transition-all duration-300'
+                    className='min-w-fit bg-gray-100 py-2 px-3 rounded-2xl transition-all duration-300'
                 >
                     <p
                         className={`text-sm font-semibold
