@@ -43,7 +43,16 @@ const getUserById = async (req, res) => {
 
         const posts = await Post.find({ user: id })
             .sort({ createdAt: -1 })
-            .select('content image likes createdAt');
+            .select('content image likes createdAt')
+            .populate('user', 'username avatar')
+            .lean();;
+
+        posts.sort((a, b) => {
+            if (b.likes.length === a.likes.length) {
+                return new Date(b.createdAt) - new Date(a.createdAt);
+            }
+            return b.likes.length - a.likes.length;
+        });
 
         return res.status(200).json({
             success: true,
@@ -171,6 +180,9 @@ const toggleFollow = async (req, res) => {
         return res.status(200).json({
             success: true,
             message,
+            data: {
+                user: targetUser
+            }
         });
     } catch (error) {
         res.status(500).json({ message: error.message });

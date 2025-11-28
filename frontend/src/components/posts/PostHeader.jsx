@@ -1,7 +1,11 @@
 import Avatar from '@mui/material/Avatar';
 import timeAgo from '../../functions/timeAgo';
 
+import { useNavigate } from 'react-router-dom';
+
 const PostHeader = ({ post, truncate }) => {
+    const navigate = useNavigate();
+    const handleNavigate = (target) => navigate(target);
     if (!post) return null;
 
     const content = post.content
@@ -17,7 +21,10 @@ const PostHeader = ({ post, truncate }) => {
             <div className="flex items-center gap-2">
                 <Avatar src={post.user.avatar} sx={{ width: 50, height: 50 }} />
                 <div>
-                    <strong>{post.user.username}</strong>
+                    <strong
+                        className='cursor-pointer'
+                        onClick={() => handleNavigate(`/users/${post.user._id}`)}
+                    >{post.user.username}</strong>
                     <p className='text-xs opacity-50'>{timeAgo(post.createdAt)}</p>
                 </div>
             </div>

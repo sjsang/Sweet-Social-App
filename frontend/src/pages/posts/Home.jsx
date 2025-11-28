@@ -52,16 +52,11 @@ const Home = () => {
     return (
         <div className="md:w-1/3 m-auto">
             <p
-                className="text-red-600 ml-1 hover:underline cursor-pointer"
-                onClick={() => handleNavigate('/login')}>Đăng xuất
+                className="text-fuchsia-600 ml-1 hover:underline cursor-pointer"
+                onClick={() => handleNavigate(`/users/${currentUser}`)}>Trang cá nhân
             </p>
 
-            <p
-                className="text-indigo-600 ml-1 hover:underline cursor-pointer"
-                onClick={() => handleNavigate('/posts/new')}>Tạo bài viết
-            </p>
-
-            < PostList posts={posts} currentUser={currentUser} />
+            <PostList posts={posts} currentUser={currentUser} />
         </div>
     );
 };
