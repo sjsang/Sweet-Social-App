@@ -1,18 +1,12 @@
 import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import api from "../../api/axiosConfig";
-
-import { useNavigate } from "react-router-dom";
 import PostList from "../../components/posts/PostList";
 
 const Home = () => {
-    const [posts, setPosts] = useState([]);
-
     const navigate = useNavigate();
-
     const handleNavigate = (target) => navigate(target);
-
-    const currentUser = localStorage.getItem('userId');
-
+    // Chưa đăng nhập => Login
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
@@ -20,10 +14,11 @@ const Home = () => {
         }
     }, [navigate]);
 
+    // Lấy tất cả bài viết
+    const [posts, setPosts] = useState([]);
     useEffect(() => {
         fetchPosts();
     }, []);
-
     const fetchPosts = async () => {
         try {
             const res = await api.get('/posts');
@@ -37,13 +32,30 @@ const Home = () => {
         }
     }
 
+    const currentUser = localStorage.getItem('userId');
+
+    // Scroll đến bài viết trước đó 
+    // khi trở về từ trang chi tiết bài viết
+    const location = useLocation();
+    const [savedScrollY, setSavedScrollY] = useState(null);
+    useEffect(() => {
+        if (location.state?.scrollY !== undefined)
+            setSavedScrollY(location.state.scrollY);
+    }, [location]);
+    useEffect(() => {
+        if (savedScrollY !== null) {
+            window.scrollTo(0, savedScrollY);
+            setSavedScrollY(null);
+        }
+    }, [posts]);
+
     return (
         <div className="md:w-1/3 m-auto">
-            <h1>Home page</h1>
             <p
                 className="text-red-600 ml-1 hover:underline cursor-pointer"
                 onClick={() => handleNavigate('/login')}>Đăng xuất
             </p>
+
             <p
                 className="text-indigo-600 ml-1 hover:underline cursor-pointer"
                 onClick={() => handleNavigate('/posts/new')}>Tạo bài viết

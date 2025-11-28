@@ -1,32 +1,24 @@
-import Avatar from '@mui/material/Avatar';
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import timeAgo from "../../functions/timeAgo";
 import api from "../../api/axiosConfig";
+import PostHeader from './PostHeader';
 
-const timeAgo = (dateString) => {
-    const now = new Date();
-    const postDate = new Date(dateString);
-    const diff = Math.floor((now - postDate) / 1000);
+const PostDetail = () => {
+    // Lấy vị trí cũ của trang chủ 
+    // và gửi ngược lại trang chủ
+    const location = useLocation();
+    const scrollY = location.state?.scrollY || 0;
+    const navigate = useNavigate();
+    const handleExit = () => navigate('/', { state: { scrollY } });
 
-    if (diff < 60) return `${diff} giây trước`;
-    if (diff < 3600) return `${Math.floor(diff / 60)} phút trước`;
-    if (diff < 86400) return `${Math.floor(diff / 3600)} giờ trước`;
-    return `${Math.floor(diff / 86400)} ngày trước`;
-};
-
-const PostDetail = ({ currentUser }) => {
+    // Lấy chi tiết bài viết
     const { id } = useParams();
     const [post, setPost] = useState(null);
     const [postComments, setPostComments] = useState([]);
-    const [comment, setComment] = useState({
-        content: '',
-    });
-    const [error, setError] = useState('');
-
     useEffect(() => {
         fetchPost();
     }, []);
-
     const fetchPost = async () => {
         try {
             const res = await api.get(`/posts/${id}`);
@@ -39,11 +31,13 @@ const PostDetail = ({ currentUser }) => {
         }
     }
 
+    // Thêm bình luận
+    const [comment, setComment] = useState({ content: '', });
+    const [error, setError] = useState('');
     const handleChange = (e) => {
         setError('');
         setComment(prev => ({ ...prev, content: e.target.value }));
     }
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!comment.content.trim()) {
@@ -79,14 +73,12 @@ const PostDetail = ({ currentUser }) => {
 
             <aside className="w-full md:w-1/3 h-screen overflow-x-hidden border-l md:border-l md:border-gray-200 px-4">
                 <div className='space-y-3 sticky top-0 bg-white'>
-                    <div className="flex items-center gap-3 pt-3">
-                        <Avatar
-                            src={post?.user?.avatar}
-                        />
-                        <div>
-                            <p className="font-semibold">{post?.user?.username}</p>
-                            <p className="text-xs text-gray-500">{timeAgo(post?.createdAt)}</p>
-                        </div>
+                    <div className="flex justify-between items-center">
+                        <PostHeader post={post} />
+                        <i
+                            className="fa-solid fa-xmark cursor-pointer"
+                            onClick={handleExit}
+                        ></i>
                     </div>
 
                     <div>
