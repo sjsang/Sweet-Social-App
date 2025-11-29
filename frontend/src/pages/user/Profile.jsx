@@ -5,10 +5,12 @@ import ProfileHeader from "../../components/users/ProfileHeader";
 import PostList from "../../components/posts/PostList";
 
 const Profile = () => {
+    const { id } = useParams();
+    const loggedInUser = localStorage.getItem('userId');
+
     const navigate = useNavigate();
     const handleNavigate = (target) => navigate(target);
 
-    const { id } = useParams();
 
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState(null);
@@ -28,8 +30,6 @@ const Profile = () => {
             console.error("Lỗi khi lấy thông tin:", error);
         }
     }
-
-    const loggedInUser = localStorage.getItem('userId');
 
     const handleToggleFollow = async () => {
         try {
@@ -55,17 +55,20 @@ const Profile = () => {
                 }
             </div>
             {loggedInUser === user?._id &&
-                <div className="flex">
-                    <p
-                        className="text-indigo-600 ml-1 hover:underline cursor-pointer"
-                        onClick={() => handleNavigate('/posts/new')}>Tạo bài viết
-                    </p>
-                </div>
+                <p
+                    className="hover:underline cursor-pointer"
+                    onClick={() => handleNavigate('/posts/new')}>Tạo bài viết
+                </p>
             }
+            <p
+                className="hover:underline cursor-pointer"
+                onClick={() => handleNavigate('/')}>Trang chủ
+            </p>
+
             <hr className="text-gray-200" />
 
             <div>
-                {posts && <PostList posts={posts} user={id} currentUser={loggedInUser} />}
+                {posts && <PostList posts={posts} currentUser={loggedInUser} />}
             </div>
         </div>
     )

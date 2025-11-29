@@ -45,7 +45,7 @@ const getUserById = async (req, res) => {
             .sort({ createdAt: -1 })
             .select('content image likes createdAt')
             .populate('user', 'username avatar')
-            .lean();;
+            .lean();
 
         posts.sort((a, b) => {
             if (b.likes.length === a.likes.length) {
@@ -54,10 +54,20 @@ const getUserById = async (req, res) => {
             return b.likes.length - a.likes.length;
         });
 
+        const postsWithCommentCount = await Promise.all(
+            posts.map(async (post) => {
+                const commentCount = await Comment.countDocuments({ post: post._id });
+                return {
+                    ...post,
+                    commentCount
+                };
+            })
+        );
+
         return res.status(200).json({
             success: true,
             message: 'Lấy thông tin và bài viết của người dùng thành công.',
-            data: { user, posts }
+            data: { user, posts: postsWithCommentCount }
         });
     } catch (error) {
         res.status(500).json({ message: error.message });

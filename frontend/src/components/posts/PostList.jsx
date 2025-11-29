@@ -10,8 +10,8 @@ const PostList = ({ posts, currentUser }) => {
                             key={post._id}
                             post={post}
                             currentUser={currentUser}
-                        />))
-                    : (<p>Chưa có bài viết nào.</p>)
+                        />)
+                    ) : (<p>Chưa có bài viết nào.</p>)
             }
         </div>
     );

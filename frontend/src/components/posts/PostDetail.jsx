@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../../api/axiosConfig";
 import PostHeader from './PostHeader';
@@ -6,22 +6,21 @@ import PostFooter from "./PostFooter";
 import CommentItem from "../comments/CommentItem";
 
 const PostDetail = () => {
-    // Lấy vị trí cũ của trang chủ 
-    // và gửi ngược lại trang chủ
-    const location = useLocation();
-    const scrollY = location.state?.scrollY || 0;
-    const navigate = useNavigate();
-    const handleExit = () => navigate('/', { state: { scrollY } });
-
-    const currentUser = localStorage.getItem('userId');
-
-    // Lấy chi tiết bài viết
     const { id } = useParams();
+    const loggedInUserId = localStorage.getItem('userId');
+
     const [post, setPost] = useState(null);
     const [postComments, setPostComments] = useState([]);
+    const [isActive, setIsActive] = useState(true);
+    const [comment, setComment] = useState({ content: '', });
+
+    const navigate = useNavigate();
+    const handleExit = () => navigate(-1);
+
     useEffect(() => {
         fetchPost();
     }, []);
+
     const fetchPost = async () => {
         try {
             const res = await api.get(`/posts/${id}`);
@@ -35,13 +34,12 @@ const PostDetail = () => {
     }
 
     // Thêm bình luận
-    const [isActive, setIsActive] = useState(true);
-    const [comment, setComment] = useState({ content: '', });
     const handleChange = (e) => {
         const value = e.target.value;
         setComment({ content: value });
         setIsActive(value.trim() === '');
     }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -108,7 +106,7 @@ const PostDetail = () => {
                             onClick={handleExit}
                         ></i>
                     </div>
-                    {post && comment && <PostFooter currentUser={currentUser} post={post} comments={postComments} />}
+                    {post && comment && <PostFooter currentUser={loggedInUserId} post={post} comments={postComments} />}
                     <hr className='text-gray-200' />
                 </div>
 
@@ -116,7 +114,7 @@ const PostDetail = () => {
                     {
                         postComments && postComments.length > 0
                             ? (postComments.map((c) => (
-                                <CommentItem key={c._id} comment={c} currentUser={currentUser} onClickDeleteComment={handleDelete} onUpdateComment={handleUpdate} />
+                                <CommentItem key={c._id} comment={c} currentUser={loggedInUserId} onClickDeleteComment={handleDelete} onUpdateComment={handleUpdate} />
                             )))
                             : (<p className="text-sm text-gray-500">Chưa có bình luận nào.</p>)
                     }

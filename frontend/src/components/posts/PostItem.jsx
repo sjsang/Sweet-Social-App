@@ -3,14 +3,8 @@ import PostHeader from './PostHeader';
 import PostFooter from './PostFooter';
 
 const PostItem = ({ post, currentUser }) => {
-    // Gửi kèm vị trí cũ của trang chủ 
-    // khi xem chi tiết bài viết
     const navigate = useNavigate();
-    const goToDetail = () => navigate(`/posts/${post._id}`, {
-        state: {
-            scrollY: window.scrollY
-        }
-    });
+    const goToDetail = () => navigate(`/posts/${post._id}`);
 
     return (
         <div className='group relative mb-0.5 md:mb-3 md:shadow-lg md:rounded-2xl border-gray-400 overflow-hidden'>

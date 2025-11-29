@@ -5,6 +5,7 @@ const PostFooter = ({ currentUser, post, comments, onCommentClick }) => {
     const [isLiked, setIsLiked] = useState(post.likes.includes(currentUser));
     const [likeCount, setLikeCount] = useState(post.likes.length);
     const [loading, setLoading] = useState(false);
+
     const handleLike = async () => {
         if (loading) return;
 
