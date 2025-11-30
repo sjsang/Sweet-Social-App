@@ -19,16 +19,16 @@ const ProfileHeader = ({ user, postCount, loggedInUser, onClickLogout, onClickFo
     }
 
     return (
-        <div className="flex gap-3">
+        <div className="flex gap-3 bg-white p-3 rounded-3xl shadow">
             <Avatar src={currentUser.avatar} sx={{ width: 100, height: 100 }} />
 
             <div className="flex flex-col justify-around">
                 <div>
-                    <p className="font-bold text-xl">{currentUser.username}</p>
+                    <p className="font-bold text-lg">{currentUser.username}</p>
                     <p>{currentUser.name}</p>
                 </div>
 
-                <div className="flex gap-3">
+                <div className="flex gap-5">
                     <p><strong>{postCount}</strong> bài viết</p>
                     <p><strong>{followers}</strong> người theo dõi</p>
                     <p><strong>{currentUser.following?.length}</strong> đang theo dõi</p>
@@ -39,14 +39,14 @@ const ProfileHeader = ({ user, postCount, loggedInUser, onClickLogout, onClickFo
                 {isOtherUser ? (
                     isFollowed ? (
                         <p
-                            className="py-2 px-3 rounded-2xl text-white bg-rose-500 cursor-pointer"
+                            className="py-1 px-2 rounded-3xl text-white bg-rose-500 cursor-pointer"
                             onClick={handleClickFollow}
                         >
                             Bỏ theo dõi
                         </p>
                     ) : (
                         <p
-                            className="py-2 px-3 rounded-2xl text-white bg-cyan-500 cursor-pointer"
+                            className="py-1 px-2 rounded-3xl text-white bg-blue-500 cursor-pointer"
                             onClick={handleClickFollow}
                         >
                             Theo dõi
@@ -54,7 +54,7 @@ const ProfileHeader = ({ user, postCount, loggedInUser, onClickLogout, onClickFo
                     )
                 ) : (
                     <p
-                        className="py-2 px-3 rounded-2xl text-white bg-rose-500 cursor-pointer"
+                        className="py-1 px-2 rounded-3xl text-white bg-rose-500 cursor-pointer"
                         onClick={onClickLogout}
                     >Đăng xuất</p>
                 )}

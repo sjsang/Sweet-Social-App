@@ -5,7 +5,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 import GoogleLoginButton from "../../components/auth/GoogleLoginButton";
 
-export default function Login() {
+const Login = () => {
     useEffect(() => {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
@@ -81,7 +81,7 @@ export default function Login() {
                             value={form.username}
                             onChange={handleChange}
                             required
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 
+                            className="w-full border bg-white border-gray-300 rounded-lg px-3 py-2 
                             focus:border-indigo-500 focus:ring-indigo-500"
                         />
                     </div>
@@ -95,7 +95,7 @@ export default function Login() {
                                 value={form.password}
                                 onChange={handleChange}
                                 required
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2 pr-10 
+                                className="w-full border bg-white border-gray-300 rounded-lg px-3 py-2 pr-10 
                                 focus:border-indigo-500 focus:ring-indigo-500"
                             />
                             <span
@@ -137,3 +137,5 @@ export default function Login() {
         </div>
     );
 }
+
+export default Login;

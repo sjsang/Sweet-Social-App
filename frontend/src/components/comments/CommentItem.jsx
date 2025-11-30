@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import timeAgo from "../../functions/timeAgo";
+import { useNavigate } from "react-router-dom";
 
 const CommentItem = ({ comment, currentUser, onClickDeleteComment, onUpdateComment }) => {
     const [open, setOpen] = useState(false);
@@ -9,6 +10,8 @@ const CommentItem = ({ comment, currentUser, onClickDeleteComment, onUpdateComme
     const textareaRef = useRef(null);
     const commentRef = useRef(null);
     const [width, setWidth] = useState("auto");
+
+    const navigate = useNavigate();
 
     // Lấy chiều rộng gốc khi render
     useEffect(() => {
@@ -49,11 +52,12 @@ const CommentItem = ({ comment, currentUser, onClickDeleteComment, onUpdateComme
             <div>
                 <div
                     ref={commentRef}
-                    className='min-w-fit bg-gray-100 py-2 px-3 rounded-2xl transition-all duration-300'
+                    className='min-w-fit bg-white p-3 rounded-3xl shadow transition-all duration-300'
                 >
                     <p
-                        className={`text-sm font-semibold
+                        className={`text-sm font-semibold cursor-pointer
                         ${currentUser === comment.user._id ? 'text-rose-600' : ''}`}
+                        onClick={() => navigate(`/users/${comment.user._id}`)}
                     >{comment.user.username}</p>
 
                     {editing

@@ -46,10 +46,7 @@ const getAllPosts = async (req, res) => {
         );
 
         postsWithCommentCount.sort((a, b) => {
-            if (b.likes.length === a.likes.length) {
-                return new Date(b.createdAt) - new Date(a.createdAt);
-            }
-            return b.likes.length - a.likes.length;
+            return new Date(b.createdAt) - new Date(a.createdAt);
         });
 
         return res.status(200).json({

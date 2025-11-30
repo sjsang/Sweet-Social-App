@@ -7,29 +7,30 @@ const PostItem = ({ post, currentUser }) => {
     const goToDetail = () => navigate(`/posts/${post._id}`);
 
     return (
-        <div className='group relative mb-0.5 md:mb-3 md:shadow-lg md:rounded-2xl border-gray-400 overflow-hidden'>
+        <div className='group relative mb-0.5 md:mb-3  md:rounded-3xl shadow border-gray-400 overflow-hidden'>
             {post.image ? (
-                <div className='text-shadow-lg/10 bg-black flex items-center'>
+                <div className='bg-black flex items-center text-shadow'>
                     <img
                         src={post.image}
                         className='w-full'
                     />
 
-                    <div className='w-full absolute bottom-0 text-white flex justify-between'>
-                        <div className='transition-opacity duration-300 ease-in-out group-hover:opacity-15'>
-                            <PostHeader post={post} truncate={50} />
+                    <div className='w-full absolute bottom-0 text-white bg-linear-to-t from-black/60 via-black-20 to-transparen'>
+                        <div>
+                            <div className='hidden md:flex'>
+                                <PostHeader post={post} truncate={150} />
+                            </div>
+                            <div className='flex md:hidden'>
+                                <PostHeader post={post} truncate={45} />
+                            </div>
                         </div>
-                        <div className='self-end'>
-                            <PostFooter currentUser={currentUser} post={post} onCommentClick={goToDetail} />
-                        </div>
+                        <PostFooter currentUser={currentUser} post={post} onCommentClick={goToDetail} />
                     </div>
                 </div>
             ) : (
-                <div className='w-full text-black bg-white flex justify-between'>
+                <div className='w-full text-black bg-white'>
                     <PostHeader post={post} />
-                    <div className='self-end'>
-                        <PostFooter currentUser={currentUser} post={post} onCommentClick={goToDetail} />
-                    </div>
+                    <PostFooter currentUser={currentUser} post={post} onCommentClick={goToDetail} />
                 </div>
             )}
         </div>

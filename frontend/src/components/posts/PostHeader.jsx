@@ -5,16 +5,14 @@ import { useNavigate } from 'react-router-dom';
 
 const PostHeader = ({ post, truncate }) => {
     const navigate = useNavigate();
-    const handleNavigate = (target) => navigate(target);
     if (!post) return null;
 
-    const content = post.content
-        ? truncate
-            ? post.content.length > truncate
-                ? post.content.slice(0, truncate) + '...'
-                : post.content
-            : post.content
-        : '';
+    const truncatedText =
+        truncate && post.content && post.content.length > truncate
+            ? post.content.slice(0, truncate)
+            : post.content;
+
+    const isTruncated = truncate && post.content && post.content.length > truncate;
 
     return (
         <div className='space-y-3 p-3'>
@@ -23,12 +21,30 @@ const PostHeader = ({ post, truncate }) => {
                 <div>
                     <strong
                         className='cursor-pointer'
-                        onClick={() => handleNavigate(`/users/${post.user._id}`)}
-                    >{post.user.username}</strong>
-                    <p className='text-xs opacity-50'>{timeAgo(post.createdAt)}</p>
+                        onClick={() => navigate(`/users/${post.user._id}`)}
+                    >
+                        {post.user.username}
+                    </strong>
+                    <p className='text-xs opacity-80'>{timeAgo(post.createdAt)}</p>
                 </div>
             </div>
-            {content && <p>{content}</p>}
+
+            {post.content && (
+                <p>
+                    {truncatedText}
+                    {isTruncated && (
+                        <>
+                            ...{' '}
+                            <span
+                                onClick={() => navigate(`/posts/${post._id}`)}
+                                className="font-medium text-sm cursor-pointer hover:underline"
+                            >
+                                Xem thêm
+                            </span>
+                        </>
+                    )}
+                </p>
+            )}
         </div>
     );
 };

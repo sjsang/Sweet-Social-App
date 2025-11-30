@@ -5,7 +5,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 import GoogleLoginButton from "../../components/auth/GoogleLoginButton";
 
-export default function Register() {
+const Register = () => {
     const navigate = useNavigate();
 
     const [error, setError] = useState("");
@@ -80,7 +80,7 @@ export default function Register() {
                             value={form.name}
                             onChange={handleChange}
                             required
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500"
+                            className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500"
                         />
                     </div>
 
@@ -92,7 +92,7 @@ export default function Register() {
                             value={form.username}
                             onChange={handleChange}
                             required
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500"
+                            className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500"
                         />
                     </div>
 
@@ -104,7 +104,7 @@ export default function Register() {
                             value={form.email}
                             onChange={handleChange}
                             required
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500"
+                            className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500"
                         />
                     </div>
 
@@ -117,7 +117,7 @@ export default function Register() {
                                 value={form.password}
                                 onChange={handleChange}
                                 required
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2 pr-10 
+                                className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 pr-10 
                        focus:border-indigo-500 focus:ring-indigo-500"
                             />
                             <span
@@ -138,7 +138,7 @@ export default function Register() {
                                 value={form.confirmPassword}
                                 onChange={handleChange}
                                 required
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2 pr-10 
+                                className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 pr-10 
                        focus:border-indigo-500 focus:ring-indigo-500"
                             />
                             <span
@@ -179,3 +179,5 @@ export default function Register() {
         </div>
     );
 }
+
+export default Register;
