@@ -5,7 +5,6 @@ import Home from "./pages/posts/Home";
 import NewPost from "./pages/posts/CreatePost";
 import PostDetail from "./components/posts/PostDetail";
 import Profile from "./pages/user/Profile";
-import Notifications from "./pages/notifications/Notifications";
 import Connect from "./pages/connect/Connect";
 
 function App() {
@@ -19,8 +18,6 @@ function App() {
       <Route path="/posts/new" element={<NewPost />} />
 
       <Route path="/users/:id" element={<Profile />} />
-
-      <Route path="/notifications" element={<Notifications />} />
 
       <Route path="/connect" element={<Connect />} />
     </Routes>

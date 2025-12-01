@@ -8,20 +8,16 @@ import Header from "../../components/layout/Header";
 
 const Profile = () => {
     const { id } = useParams();
-    const loggedInUser = localStorage.getItem('userId');
-
-    const navigate = useNavigate();
-    const handleNavigate = (target) => navigate(target);
-
+    const loggedInUserId = localStorage.getItem('userId');
 
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState(null);
 
     useEffect(() => {
-        fetchUser();
-    }, []);
+        fetchUserAndPosts();
+    }, [id]);
 
-    const fetchUser = async () => {
+    const fetchUserAndPosts = async () => {
         try {
             const res = await api.get(`/users/${id}`);
             if (res.data.success) {
@@ -33,37 +29,23 @@ const Profile = () => {
         }
     }
 
-    const handleToggleFollow = async () => {
-        try {
-            const res = await api.post(`/users/${user._id}/follow`);
-            if (res.data.success)
-                setUser(res.data.data.user);
-        } catch (error) {
-            console.log('Có lỗi khi theo dõi/bỏ theo dõi: ', error);
-        }
-    }
-
     return (
         <div>
             <Header />
+
+            <div className="h-5"></div>
+
             <div className="md:flex md:justify-center md:gap-5">
                 <div className="hidden md:block md:w-1/5">
-                    <SideBarMenu activePage={'profile'} />
+                    <SideBarMenu />
                 </div>
 
                 <div className="md:w-1/3">
                     {user && posts &&
-                        <ProfileHeader
-                            user={user}
-                            postCount={posts.length}
-                            loggedInUser={loggedInUser}
-                            onClickLogout={() => handleNavigate('/login')}
-                            onClickFollow={handleToggleFollow}
-                        />
+                        <ProfileHeader user={user} posts={posts} loggedInUserId={loggedInUserId} />
                     }
-                    <hr className="text-gray-300 my-3" />
-                    <div>
-                        {posts && <PostList posts={posts} currentUser={loggedInUser} />}
+                    <div className="mt-5">
+                        {posts && <PostList posts={posts} currentUser={loggedInUserId} />}
                     </div>
                 </div>
 

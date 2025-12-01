@@ -5,6 +5,9 @@ const Connect = () => {
     return (
         <div>
             <Header />
+
+            <div className="h-5"></div>
+
             <div className="md:flex md:justify-center md:gap-5">
                 <div className="hidden md:block md:w-1/5">
                     <SideBarMenu activePage={'connect'} />

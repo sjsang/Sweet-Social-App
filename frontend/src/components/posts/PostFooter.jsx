@@ -1,8 +1,8 @@
 import { useState } from "react";
 import api from "../../api/axiosConfig";
 
-const PostFooter = ({ currentUser, post, comments, onCommentClick }) => {
-    const [isLiked, setIsLiked] = useState(post.likes.includes(currentUser));
+const PostFooter = ({ loggedInUserId, post, comments, onCommentClick }) => {
+    const [isLiked, setIsLiked] = useState(post.likes.includes(loggedInUserId));
     const [likeCount, setLikeCount] = useState(post.likes.length);
     const [loading, setLoading] = useState(false);
 

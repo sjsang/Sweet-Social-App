@@ -160,7 +160,10 @@ const toggleFollow = async (req, res) => {
             return res.status(400).json({ message: 'Không thể theo dõi chính mình.' });
 
         const user = await User.findById(userId).select('following');
-        const targetUser = await User.findById(id).select('followers');
+        const targetUser = await User.findById(id)
+            .select('-password')
+            .populate('followers', 'username avatar')
+            .populate('following', 'username avatar');
 
         if (!targetUser)
             return res.status(404).json({ message: 'Người dùng không tồn tại.' });

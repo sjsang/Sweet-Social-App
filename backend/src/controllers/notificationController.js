@@ -5,9 +5,9 @@ const getNotifications = async (req, res) => {
         const userId = req.userId;
 
         const notifications = await Notification.find({ recipient: userId })
-            .populate('sender', 'username')
+            .populate('sender', 'username avatar')
             .populate('post', 'content')
-            .sort({ createdAt: -1 });
+            .sort({ isRead: 1, createdAt: -1 });
 
         return res.status(200).json({
             success: true,
@@ -43,27 +43,6 @@ const markAsRead = async (req, res) => {
     }
 };
 
-const markAllAsRead = async (req, res) => {
-    try {
-        const userId = req.userId;
-
-        const result = await Notification.updateMany(
-            { recipient: userId, read: false },
-            { read: true },
-        );
-
-        if (result.matchedCount === 0)
-            return res.status(404).json({ message: 'Không có thông báo nào để đánh dấu.' });
-
-        return res.status(200).json({
-            success: true,
-            message: `Đã đánh dấu ${result.modifiedCount} thông báo là đã đọc.`,
-        });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
 const deleteNotification = async (req, res) => {
     try {
         const userId = req.userId;
@@ -86,6 +65,5 @@ const deleteNotification = async (req, res) => {
 export {
     getNotifications,
     markAsRead,
-    markAllAsRead,
     deleteNotification,
 };

@@ -1,63 +1,79 @@
 import Avatar from "@mui/material/Avatar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import api from "../../api/axiosConfig";
 
-const ProfileHeader = ({ user, postCount, loggedInUser, onClickLogout, onClickFollow }) => {
-    const isOtherUser = user._id !== loggedInUser;
-    const [isFollowed, setIsFollowed] = useState(user?.followers.some(f => f._id === loggedInUser));
-    const [followers, setFollowers] = useState(user.followers?.length);
+const ProfileHeader = ({ user, posts, loggedInUserId }) => {
+    const navigate = useNavigate();
 
-    const [currentUser, setCurrentUser] = useState(user);
+    const { id } = useParams();
 
-    const handleClickFollow = () => {
-        if (isFollowed)
-            setFollowers(prev => prev - 1);
-        else
-            setFollowers(prev => prev + 1);
-        setIsFollowed(!isFollowed);
-        onClickFollow();
-        setCurrentUser(prev => ({ ...prev, followers: followers }));
+    const [displayUser, setDisplayUser] = useState(user);
+    const [postsLength, setPostsLength] = useState(posts.length);
+    const [isAnotherUser, setIsAnotherUser] = useState(loggedInUserId !== id);
+    const [isFollowed, setIsFollowed] = useState(
+        user.followers.map(f => f._id.toString()).includes(loggedInUserId)
+    );
+
+    useEffect(() => {
+        setDisplayUser(user);
+        setPostsLength(posts.length);
+        setIsFollowed(
+            user.followers.map(f => f._id.toString()).includes(loggedInUserId)
+        );
+    }, [user, posts]);
+
+    useEffect(() => {
+        setIsAnotherUser(loggedInUserId !== id);
+    }, [id]);
+
+    const toggleFollow = async () => {
+        try {
+            const res = await api.post(`/users/${displayUser._id}/follow`);
+            if (res.data.success) {
+                setDisplayUser(res.data.data.user);
+                setIsFollowed(!isFollowed);
+            }
+        } catch (error) {
+            console.log('Có lỗi khi theo dõi/bỏ theo dõi: ', error);
+        }
     }
 
     return (
         <div className="flex gap-3 bg-white p-3 rounded-3xl shadow">
-            <Avatar src={currentUser.avatar} sx={{ width: 100, height: 100 }} />
+            <Avatar src={displayUser.avatar} sx={{ width: 100, height: 100 }} />
 
             <div className="flex flex-col justify-around">
                 <div>
-                    <p className="font-bold text-lg">{currentUser.username}</p>
-                    <p>{currentUser.name}</p>
+                    <p className="font-bold text-lg">{displayUser.username}</p>
+                    <p>{displayUser.name}</p>
                 </div>
 
                 <div className="flex gap-5">
-                    <p><strong>{postCount}</strong> bài viết</p>
-                    <p><strong>{followers}</strong> người theo dõi</p>
-                    <p><strong>{currentUser.following?.length}</strong> đang theo dõi</p>
+                    <p><strong>{postsLength}</strong> bài viết</p>
+                    <p><strong>{displayUser.followers.length}</strong> người theo dõi</p>
+                    <p><strong>{displayUser.following.length}</strong> đang theo dõi</p>
                 </div>
             </div>
 
             <div className="ms-auto h-fit">
-                {isOtherUser ? (
+                {isAnotherUser ? (
                     isFollowed ? (
                         <p
                             className="py-1 px-2 rounded-3xl text-white bg-rose-500 cursor-pointer"
-                            onClick={handleClickFollow}
+                            onClick={toggleFollow}
                         >
                             Bỏ theo dõi
                         </p>
                     ) : (
                         <p
                             className="py-1 px-2 rounded-3xl text-white bg-blue-500 cursor-pointer"
-                            onClick={handleClickFollow}
+                            onClick={toggleFollow}
                         >
                             Theo dõi
                         </p>
                     )
-                ) : (
-                    <p
-                        className="py-1 px-2 rounded-3xl text-white bg-rose-500 cursor-pointer"
-                        onClick={onClickLogout}
-                    >Đăng xuất</p>
-                )}
+                ) : ''}
             </div>
         </div>
     );

@@ -4,6 +4,7 @@ import api from "../../api/axiosConfig";
 import PostHeader from './PostHeader';
 import PostFooter from "./PostFooter";
 import CommentItem from "../comments/CommentItem";
+import Header from "../../components/layout/Header";
 
 const PostDetail = () => {
     const { id } = useParams();
@@ -81,62 +82,64 @@ const PostDetail = () => {
     }
 
     return (
-        <div className="flex flex-col md:flex-row">
-            <div className="w-full md:w-3/4 md:h-screen flex items-center justify-center bg-neutral-950">
-                {post?.image
-                    ? (
-                        <img
-                            src={post.image}
-                            alt="post"
-                            className="max-w-full max-h-full object-contain"
-                        />)
-                    : (
-                        <div className="text-gray-400">
-                            Không có ảnh.
-                        </div>)
-                }
-            </div>
-
-            <div className="w-full md:w-1/4 md:h-screen overflow-x-hidden relative space-y-3">
-                <div className='sticky top-0 z-10 bg-white'>
-                    <div className="flex justify-between">
-                        <PostHeader post={post} />
-                        <i
-                            className="fa-solid fa-xmark text-lg text-gray-500 m-3 cursor-pointer"
-                            onClick={handleExit}
-                        ></i>
-                    </div>
-                    {post && comment && <PostFooter currentUser={loggedInUserId} post={post} comments={postComments} />}
-                    <hr className='text-gray-200' />
-                </div>
-
-                <div className="space-y-3 px-3">
-                    {
-                        postComments && postComments.length > 0
-                            ? (postComments.map((c) => (
-                                <CommentItem key={c._id} comment={c} currentUser={loggedInUserId} onClickDeleteComment={handleDelete} onUpdateComment={handleUpdate} />
-                            )))
-                            : (<p className="text-sm text-gray-500">Chưa có bình luận nào.</p>)
+        <div>
+            <Header />
+            <div className="flex flex-col md:flex-row">
+                <div className="w-full md:w-3/4 md:h-[calc(100vh-60px)] flex items-center justify-center bg-neutral-950 md:sticky top-15">
+                    {post?.image
+                        ? (
+                            <img
+                                src={post.image}
+                                alt="post"
+                                className="max-w-full max-h-full object-contain"
+                            />)
+                        : (
+                            <div className="text-gray-400">
+                                Không có ảnh.
+                            </div>)
                     }
                 </div>
 
-                <div className="h-10"></div>
-
-                <div className="fixed right-0 bottom-0 w-full md:w-1/4 p-3 bg-white border-t border-gray-200">
-                    <form onSubmit={handleSubmit} className="flex">
-                        <input
-                            type="text"
-                            value={comment.content}
-                            placeholder='Viết bình luận...'
-                            onChange={handleChange}
-                            className="flex-1 outline-0"
-                        />
-                        <button type='submit' disabled={isActive} className={`${isActive ? ' opacity-50' : ''} cursor-pointer`}>
+                <div className="w-full md:w-1/4 md:h-[calc(100vh-60px)] overflow-x-hidden relative space-y-3">
+                    <div className='sticky top-0 z-9 bg-white shadow'>
+                        <div className="flex justify-between">
+                            <PostHeader post={post} />
                             <i
-                                className="fa-solid fa-paper-plane text-blue-500 text-2xl"
+                                className="fa-solid fa-xmark text-lg text-gray-500 m-3 cursor-pointer"
+                                onClick={handleExit}
                             ></i>
-                        </button>
-                    </form>
+                        </div>
+                        {post && comment && <PostFooter currentUser={loggedInUserId} post={post} comments={postComments} />}
+                    </div>
+
+                    <div className="space-y-3 px-3">
+                        {
+                            postComments && postComments.length > 0
+                                ? (postComments.map((c) => (
+                                    <CommentItem key={c._id} comment={c} currentUser={loggedInUserId} onClickDeleteComment={handleDelete} onUpdateComment={handleUpdate} />
+                                )))
+                                : (<p className="text-sm text-gray-500">Chưa có bình luận nào.</p>)
+                        }
+                    </div>
+
+                    <div className="h-10"></div>
+
+                    <div className="fixed right-0 bottom-0 w-full md:w-1/4 p-3 bg-white border-t border-gray-200">
+                        <form onSubmit={handleSubmit} className="flex">
+                            <input
+                                type="text"
+                                value={comment.content}
+                                placeholder='Viết bình luận...'
+                                onChange={handleChange}
+                                className="flex-1 outline-0"
+                            />
+                            <button type='submit' disabled={isActive} className={`${isActive ? ' opacity-50' : ''} cursor-pointer`}>
+                                <i
+                                    className="fa-solid fa-paper-plane text-blue-500 text-2xl"
+                                ></i>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

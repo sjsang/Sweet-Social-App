@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import PostHeader from './PostHeader';
 import PostFooter from './PostFooter';
 
-const PostItem = ({ post, currentUser }) => {
+const PostItem = ({ post, loggedInUserId }) => {
     const navigate = useNavigate();
     const goToDetail = () => navigate(`/posts/${post._id}`);
 
@@ -24,13 +24,13 @@ const PostItem = ({ post, currentUser }) => {
                                 <PostHeader post={post} truncate={45} />
                             </div>
                         </div>
-                        <PostFooter currentUser={currentUser} post={post} onCommentClick={goToDetail} />
+                        <PostFooter loggedInUserId={loggedInUserId} post={post} onCommentClick={goToDetail} />
                     </div>
                 </div>
             ) : (
                 <div className='w-full text-black bg-white'>
                     <PostHeader post={post} />
-                    <PostFooter currentUser={currentUser} post={post} onCommentClick={goToDetail} />
+                    <PostFooter loggedInUserId={loggedInUserId} post={post} onCommentClick={goToDetail} />
                 </div>
             )}
         </div>
