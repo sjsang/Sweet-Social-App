@@ -15,7 +15,7 @@ const searchUsers = async (req, res) => {
                 { username: { $regex: q, $options: 'i' } },
                 { name: { $regex: q, $options: 'i' } }
             ]
-        }).select('name username avatar');
+        }).select('name username avatar followers');
 
         if (users.length === 0)
             return res.status(404).json({ message: 'Không tìm thấy người dùng nào.' });
@@ -27,6 +27,26 @@ const searchUsers = async (req, res) => {
         });
     } catch (error) {
         res.status(500).json({ message: error.message });
+    }
+};
+
+const getFeaturedUsers = async (req, res) => {
+    try {
+        let users = await User.find()
+            .select("avatar username name followers")
+            .lean();
+
+        users = users.sort((a, b) => b.followers.length - a.followers.length);
+
+        const topUsers = users.slice(0, 6);
+
+        return res.status(200).json({
+            success: true,
+            data: topUsers
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
     }
 };
 
@@ -204,6 +224,7 @@ const toggleFollow = async (req, res) => {
 
 export {
     searchUsers,
+    getFeaturedUsers,
     getUserById,
     updateUser,
     deleteUser,

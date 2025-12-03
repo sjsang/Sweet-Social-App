@@ -7,7 +7,7 @@ const PostItem = ({ post, loggedInUserId }) => {
     const goToDetail = () => navigate(`/posts/${post._id}`);
 
     return (
-        <div className='group relative mb-0.5 md:mb-3  md:rounded-3xl shadow border-gray-400 overflow-hidden'>
+        <div className='group relative mb-0.5 md:mb-3  md:rounded-lg shadow border-gray-400 overflow-hidden'>
             {post.image ? (
                 <div className='bg-black flex items-center text-shadow'>
                     <img

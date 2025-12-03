@@ -112,7 +112,7 @@ const PostDetail = () => {
                         {post && comment && <PostFooter currentUser={loggedInUserId} post={post} comments={postComments} />}
                     </div>
 
-                    <div className="space-y-3 px-3">
+                    <div className="space-y-2 px-3">
                         {
                             postComments && postComments.length > 0
                                 ? (postComments.map((c) => (

@@ -24,7 +24,7 @@ const PostList = ({ posts, loggedInUserId, loading }) => {
                         />
                     ))
                 ) : (
-                    <p className="w-full p-1 text-center bg-white shadow rounded-3xl">Không có bài viết.</p>
+                    <p className="w-full p-1 text-center bg-white shadow rounded-lg">Không có bài viết.</p>
                 )
             }
         </div>

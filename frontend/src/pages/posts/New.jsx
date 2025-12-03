@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import SideBarMenu from "../../components/layout/SideBarMenu";
 import Header from "../../components/layout/Header";
 
-const NewPost = () => {
+const New = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 
@@ -47,21 +47,13 @@ const NewPost = () => {
                 </div>
 
                 <div className="md:w-1/3">
-                    <div className="w-100 m-auto space-y-3">
-                        <h1 className="text-3xl font-semibold text-gray-800">Tạo bài viết</h1>
-                        < PostForm onSubmit={handleCreatePost} loading={loading} />
-                    </div>
+                    <PostForm onSubmit={handleCreatePost} loading={loading} />
                 </div>
 
-                <div className="hidden md:block md:w-1/5">
-                    <div className="sticky top-20 bg-white p-4 rounded-3xl shadow">
-                        <p className="font-bold mb-2">Sidebar phải</p>
-                        <p>Nội dung thêm</p>
-                    </div>
-                </div>
+                <div className="hidden md:block md:w-1/5"></div>
             </div>
         </div>
     );
 };
 
-export default NewPost;
+export default New;

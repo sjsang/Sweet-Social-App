@@ -1,6 +1,6 @@
 const PostItemSkeleton = () => {
     return (
-        <div className="animate-pulse mb-0.5 md:mb-3 md:rounded-3xl shadow border border-gray-200 overflow-hidden bg-white">
+        <div className="animate-pulse mb-0.5 md:mb-3 md:rounded-lg shadow border border-gray-200 overflow-hidden bg-white">
 
             <div className="w-full h-60 bg-gray-300"></div>
 

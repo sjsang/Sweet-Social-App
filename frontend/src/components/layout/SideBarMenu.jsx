@@ -1,33 +1,35 @@
 import { useNavigate } from "react-router-dom";
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
-import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import PublicIcon from '@mui/icons-material/Public';
 
 const SideBarMenu = ({ activePage }) => {
     const navigate = useNavigate();
     const handleNavigate = (target) => navigate(target);
 
+    const activeClass = 'bg-linear-to-r from-[#8114b0] via-[#ff4291] to-[#f7ff3c] text-white';
+
     return (
-        <div className="w-[80%] space-y-3 sticky top-20">
-            <div className={`${activePage === 'home' ? 'font-bold bg-white rounded-3xl shadow' : ''} p-3`}>
+        <div className="w-[90%] space-y-2 sticky top-20">
+            <div className={`${activePage === 'home' ? `${activeClass}` : 'bg-white'} p-2 shadow rounded-lg`}>
                 <div
                     className="cursor-pointer flex items-center gap-5"
                     onClick={() => handleNavigate('/')}
                 >
-                    <ExploreOutlinedIcon sx={{ fontSize: 30 }} />
+                    <PublicIcon sx={{ fontSize: 30 }} />
                     <p>Bảng tin</p>
                 </div>
             </div>
-            <div className={`${activePage === 'connect' ? 'font-bold bg-white rounded-3xl shadow' : ''} p-3`}>
+            <div className={`${activePage === 'explore' ? `${activeClass}` : 'bg-white'} p-2 shadow rounded-lg`}>
                 <div
                     className="cursor-pointer flex items-center gap-5"
-                    onClick={() => handleNavigate('/connect')}
+                    onClick={() => handleNavigate('/explore')}
                 >
-                    <PeopleAltOutlinedIcon sx={{ fontSize: 30 }} />
-                    <p>Kết nối</p>
+                    <ExploreOutlinedIcon sx={{ fontSize: 30 }} />
+                    <p>Khám phá</p>
                 </div>
             </div>
-            <div className={`${activePage === 'new' ? 'font-bold bg-white rounded-3xl shadow' : ''} p-3`}>
+            <div className={`${activePage === 'new' ? `${activeClass}` : 'bg-white'} p-2 shadow rounded-lg`}>
                 <div
                     className="cursor-pointer flex items-center gap-5"
                     onClick={() => handleNavigate('/posts/new')}

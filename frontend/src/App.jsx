@@ -2,10 +2,10 @@ import { Routes, Route } from "react-router-dom";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Home from "./pages/posts/Home";
-import NewPost from "./pages/posts/CreatePost";
+import New from "./pages/posts/New";
 import PostDetail from "./components/posts/PostDetail";
 import Profile from "./pages/user/Profile";
-import Connect from "./pages/connect/Connect";
+import Explore from "./pages/explore/Explore";
 
 function App() {
   return (
@@ -15,11 +15,11 @@ function App() {
 
       <Route path="/" element={<Home />} />
       <Route path="/posts/:id" element={<PostDetail />} />
-      <Route path="/posts/new" element={<NewPost />} />
+      <Route path="/posts/new" element={<New />} />
 
       <Route path="/users/:id" element={<Profile />} />
 
-      <Route path="/connect" element={<Connect />} />
+      <Route path="/explore" element={<Explore />} />
     </Routes>
   );
 }

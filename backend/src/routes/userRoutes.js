@@ -3,6 +3,7 @@ const router = express.Router();
 import { authMiddleware } from '../middlewares/auth.js';
 import {
     searchUsers,
+    getFeaturedUsers,
     getUserById,
     updateUser,
     deleteUser,
@@ -12,6 +13,7 @@ import {
 // /api/users
 
 router.get('/search', searchUsers);
+router.get('/explore', getFeaturedUsers);
 router.get('/:id', getUserById);
 router.patch('/:id', authMiddleware, updateUser);
 router.delete('/:id', authMiddleware, deleteUser);

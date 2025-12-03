@@ -49,12 +49,7 @@ const Home = () => {
                     <PostList posts={posts} loggedInUserId={loggedInUserId} loading={loading} />
                 </div>
 
-                <div className="hidden md:block md:w-1/5">
-                    <div className="sticky top-20 bg-white p-4 rounded-3xl shadow">
-                        <p className="font-bold mb-2">Sidebar phải</p>
-                        <p>Nội dung thêm</p>
-                    </div>
-                </div>
+                <div className="hidden md:block md:w-1/5"></div>
             </div>
         </div>
     );

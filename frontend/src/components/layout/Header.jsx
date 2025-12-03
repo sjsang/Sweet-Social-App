@@ -51,12 +51,12 @@ const Header = ({ onClickLogo }) => {
                     <div ref={dropdownRef} className="relative">
                         <Avatar
                             src={user.avatar}
-                            sx={{ cursor: 'pointer' }}
+                            sx={{ cursor: 'pointer', border: 2 }}
                             onClick={() => setOpenDropdown(prev => !prev)}
                         />
 
                         {openDropdown && (
-                            <div className="absolute right-0 mt-2 w-40 bg-white z-20 shadow-lg border border-gray-200 rounded-3xl overflow-hidden">
+                            <div className="absolute right-0 mt-2 w-40 bg-white z-20 shadow-lg border border-gray-200 rounded-lg overflow-hidden">
                                 <p
                                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                                     onClick={() => {

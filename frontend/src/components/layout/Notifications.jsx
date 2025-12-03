@@ -115,7 +115,7 @@ const Notifications = ({ navigate }) => {
             </Badge>
 
             {openNotiBox && (
-                <div className="absolute top-8 right-0 w-100 p-2 pr-0 overflow-hidden bg-white shadow-lg border border-gray-200 rounded-3xl">
+                <div className="absolute top-8 right-0 w-100 p-2 pr-0 overflow-hidden bg-white shadow-lg border border-gray-200 rounded-lg">
                     <p className="font-bold text-xl p-2">Thông báo</p>
 
                     {notifications.length !== 0 ? (

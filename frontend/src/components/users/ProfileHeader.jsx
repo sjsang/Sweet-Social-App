@@ -1,11 +1,9 @@
 import Avatar from "@mui/material/Avatar";
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import api from "../../api/axiosConfig";
 
 const ProfileHeader = ({ user, posts, loggedInUserId }) => {
-    const navigate = useNavigate();
-
     const { id } = useParams();
 
     const [displayUser, setDisplayUser] = useState(user);
@@ -40,34 +38,35 @@ const ProfileHeader = ({ user, posts, loggedInUserId }) => {
     }
 
     return (
-        <div className="flex gap-3 bg-white p-3 rounded-3xl shadow">
-            <Avatar src={displayUser.avatar} sx={{ width: 100, height: 100 }} />
+        <div className="bg-white p-3 rounded-lg shadow">
+            <div className="flex gap-3">
+                <Avatar src={displayUser.avatar} sx={{ width: 100, height: 100 }} />
 
-            <div className="flex flex-col justify-around">
-                <div>
-                    <p className="font-bold text-lg">{displayUser.username}</p>
-                    <p>{displayUser.name}</p>
-                </div>
+                <div className="flex flex-col justify-around">
+                    <div>
+                        <p className="font-bold text-lg">{displayUser.username}</p>
+                        <p>{displayUser.name}</p>
+                    </div>
 
-                <div className="flex gap-5">
-                    <p><strong>{postsLength}</strong> bài viết</p>
-                    <p><strong>{displayUser.followers.length}</strong> người theo dõi</p>
-                    <p><strong>{displayUser.following.length}</strong> đang theo dõi</p>
+                    <div className="flex gap-5">
+                        <p><strong>{postsLength}</strong> bài viết</p>
+                        <p><strong>{displayUser.followers.length}</strong> người theo dõi</p>
+                        <p><strong>{displayUser.following.length}</strong> đang theo dõi</p>
+                    </div>
                 </div>
             </div>
-
-            <div className="ms-auto h-fit">
+            <div className="text-center">
                 {isAnotherUser ? (
                     isFollowed ? (
                         <p
-                            className="py-1 px-2 rounded-3xl text-white bg-rose-500 cursor-pointer"
+                            className="mt-3 py-1 px-2 rounded text-white bg-rose-500 hover:bg-rose-600 transition-colors duration-300 ease-in-out cursor-pointer"
                             onClick={toggleFollow}
                         >
                             Bỏ theo dõi
                         </p>
                     ) : (
                         <p
-                            className="py-1 px-2 rounded-3xl text-white bg-blue-500 cursor-pointer"
+                            className="mt-3 py-1 px-2 rounded text-white bg-blue-500 hover:bg-blue-600 transition-colors duration-300 ease-in-out cursor-pointer"
                             onClick={toggleFollow}
                         >
                             Theo dõi
