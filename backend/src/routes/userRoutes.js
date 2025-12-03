@@ -1,5 +1,6 @@
 import express from "express";
 const router = express.Router();
+import { uploadAvatar } from "../middlewares/upload.js";
 import { authMiddleware } from '../middlewares/auth.js';
 import {
     searchUsers,
@@ -15,7 +16,7 @@ import {
 router.get('/search', searchUsers);
 router.get('/explore', getFeaturedUsers);
 router.get('/:id', getUserById);
-router.patch('/:id', authMiddleware, updateUser);
+router.patch('/:id', authMiddleware, uploadAvatar.single('avatar'), updateUser);
 router.delete('/:id', authMiddleware, deleteUser);
 router.post('/:id/follow', authMiddleware, toggleFollow);
 

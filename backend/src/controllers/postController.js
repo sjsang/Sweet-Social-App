@@ -90,14 +90,10 @@ const updatePost = async (req, res) => {
         const userId = req.userId;
         const { id } = req.params;
         const { content } = req.body;
-        const image = req.file ? req.file.path : undefined;
-
-        const updateData = { content };
-        if (image) updateData.image = image;
 
         const updatedPost = await Post.findOneAndUpdate(
             { _id: id, user: userId },
-            updateData,
+            { content: content },
             { new: true }
         );
 

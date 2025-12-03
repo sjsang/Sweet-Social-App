@@ -1,7 +1,6 @@
-import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { useRef, useState } from "react";
 
-const PostForm = ({ onSubmit }) => {
+const PostForm = ({ onSubmit, loading }) => {
     const imageInputRef = useRef("");
     const [isDisabled, setIsDisabled] = useState(true);
     const [form, setForm] = useState({
@@ -77,7 +76,7 @@ const PostForm = ({ onSubmit }) => {
             <button
                 disabled={isDisabled}
                 className={`w-full py-1 px-2 rounded text-white transition-colors duration-200
-                      ${isDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 cursor-pointer hover:bg-blue-600'} `
+                      ${(isDisabled || loading) ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 cursor-pointer hover:bg-blue-600'} `
                 }
                 type="submit"
             >Đăng</button>

@@ -101,20 +101,25 @@ const updateUser = async (req, res) => {
         if (userId.toString() !== id.toString())
             return res.status(403).json({ message: 'Không có quyền chỉnh sửa.' });
 
-        const { name, username, email, avatar } = req.body;
+        const { name, username } = req.body;
 
-        const existingUser = await User.findOne({
-            $or: [{ email }, { username }],
-            _id: { $ne: userId }
-        });
-        if (existingUser)
-            return res.status(400).json({ message: 'Tên người dùng hoặc email đã được sử dụng.' });
+        const updateData = {};
+
+        if (username) {
+            const existingUser = await User.findOne({
+                username,
+                _id: { $ne: userId },
+            });
+            if (existingUser)
+                return res.status(400).json({ message: "Tên người dùng đã được sử dụng." });
+            updateData.username = username;
+        }
+        if (name) updateData.name = name;
+        if (req.file) updateData.avatar = req.file.path;
 
         const updatedUser = await User.findByIdAndUpdate(
             userId,
-            {
-                name, username, email, avatar
-            },
+            updateData,
             { new: true }
         ).select('-password');
 
