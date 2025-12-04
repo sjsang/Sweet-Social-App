@@ -48,7 +48,11 @@ const PostDetail = () => {
             const res = await api.post(`/posts/${id}/comment`, comment);
             if (res.data.success) {
                 setComment({ content: '' });
-                setPostComments(prev => [res.data.data, ...prev]);
+                const tempComment = {
+                    ...res.data.data,
+                    createdAt: new Date().toISOString()
+                };
+                setPostComments(prev => [tempComment, ...prev]);
                 setIsActive(true);
             }
         } catch (error) {

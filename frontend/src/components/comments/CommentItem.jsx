@@ -104,9 +104,7 @@ const CommentItem = ({ comment, loggedInUserId, onClickDeleteComment, onUpdateCo
                     </div>
                 </div>
 
-                <span className="text-xs text-gray-500 ms-3">
-                    {comment.createdAt && timeAgo(comment.createdAt)}
-                </span>
+                <span className="text-xs text-gray-500 ms-3">{timeAgo(comment.createdAt)}</span>
             </div>
 
             <i

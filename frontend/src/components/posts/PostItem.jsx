@@ -73,7 +73,7 @@ const PostItem = ({ post, loggedInUserId, fromProfile, onDelete, isMe }) => {
                                 <PostHeader post={post} truncate={150} />
                             </div>
                             <div className='flex md:hidden'>
-                                <PostHeader post={post} truncate={45} />
+                                <PostHeader post={post} truncate={40} />
                             </div>
                         </div>
                         <PostFooter loggedInUserId={loggedInUserId} post={post} onCommentClick={goToDetail} />
