@@ -46,6 +46,14 @@ const getAllPosts = async (req, res) => {
         );
 
         postsWithCommentCount.sort((a, b) => {
+            if ((b.likes?.length || 0) !== (a.likes?.length || 0)) {
+                return (b.likes?.length || 0) - (a.likes?.length || 0);
+            }
+
+            if (b.commentCount !== a.commentCount) {
+                return b.commentCount - a.commentCount;
+            }
+
             return new Date(b.createdAt) - new Date(a.createdAt);
         });
 

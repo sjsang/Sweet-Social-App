@@ -45,7 +45,7 @@ const Profile = () => {
                         <ProfileHeader user={user} posts={posts} loggedInUserId={loggedInUserId} />
                     }
                     <div className="md:mt-5">
-                        {posts && <PostList posts={posts} setPosts={setPosts} currentUser={loggedInUserId} fromProfile={true} />}
+                        {posts && <PostList posts={posts} setPosts={setPosts} loggedInUserId={loggedInUserId} fromProfile={true} />}
                     </div>
                 </div>
 

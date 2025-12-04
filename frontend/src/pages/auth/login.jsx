@@ -56,7 +56,7 @@ const Login = () => {
 
     return (
         <div className="min-h-screen flex">
-            <div className="w-full md:w-2/3 flex flex-col justify-center px-10 md:px-80">
+            <div className="w-full md:w-2/3 flex flex-col justify-center px-10 md:px-80 bg-white">
                 <div className="mb-7">
                     <h1 className="text-3xl font-semibold text-gray-800">
                         Đăng nhập
@@ -81,7 +81,7 @@ const Login = () => {
                             value={form.username}
                             onChange={handleChange}
                             required
-                            className="w-full border bg-white border-gray-300 rounded-lg px-3 py-2 
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 
                             focus:border-indigo-500 focus:ring-indigo-500"
                         />
                     </div>
@@ -95,7 +95,7 @@ const Login = () => {
                                 value={form.password}
                                 onChange={handleChange}
                                 required
-                                className="w-full border bg-white border-gray-300 rounded-lg px-3 py-2 pr-10 
+                                className="w-full border border-gray-300 rounded-lg px-3 py-2 pr-10 
                                 focus:border-indigo-500 focus:ring-indigo-500"
                             />
                             <span

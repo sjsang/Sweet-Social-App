@@ -1,7 +1,6 @@
 import PostItem from "./PostItem";
 import PostItemSkeleton from "../posts/PostItemSkeleton";
 import api from "../../api/axiosConfig";
-import { useState } from "react";
 
 const PostList = ({ posts, setPosts, loggedInUserId, loading, fromProfile }) => {
     if (loading) {

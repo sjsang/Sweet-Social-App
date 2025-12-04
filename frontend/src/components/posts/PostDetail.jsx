@@ -106,14 +106,14 @@ const PostDetail = () => {
                                 onClick={handleExit}
                             ></i>
                         </div>
-                        {post && comment && <PostFooter currentUser={loggedInUserId} post={post} comments={postComments} />}
+                        {post && comment && <PostFooter loggedInUserId={loggedInUserId} post={post} comments={postComments} />}
                     </div>
 
                     <div className="space-y-2 px-3">
                         {
                             postComments && postComments.length > 0
                                 ? (postComments.map((c) => (
-                                    <CommentItem key={c._id} comment={c} currentUser={loggedInUserId} onClickDeleteComment={handleDelete} onUpdateComment={handleUpdate} />
+                                    <CommentItem key={c._id} comment={c} loggedInUserId={loggedInUserId} onClickDeleteComment={handleDelete} onUpdateComment={handleUpdate} />
                                 )))
                                 : (<p className="text-sm text-gray-500">Chưa có bình luận nào.</p>)
                         }

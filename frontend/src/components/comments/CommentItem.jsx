@@ -3,7 +3,7 @@ import Avatar from "@mui/material/Avatar";
 import timeAgo from "../../functions/timeAgo";
 import { useNavigate } from "react-router-dom";
 
-const CommentItem = ({ comment, currentUser, onClickDeleteComment, onUpdateComment }) => {
+const CommentItem = ({ comment, loggedInUserId, onClickDeleteComment, onUpdateComment }) => {
     const [open, setOpen] = useState(false);
     const [editing, setEditing] = useState(false);
     const [content, setContent] = useState(comment.content);
@@ -56,7 +56,7 @@ const CommentItem = ({ comment, currentUser, onClickDeleteComment, onUpdateComme
                 >
                     <p
                         className={`text-sm font-semibold cursor-pointer
-                        ${currentUser === comment.user._id ? 'text-rose-600' : ''}`}
+                        ${loggedInUserId === comment.user._id ? 'text-rose-600' : ''}`}
                         onClick={() => navigate(`/users/${comment.user._id}`)}
                     >{comment.user.username}</p>
 
@@ -109,7 +109,7 @@ const CommentItem = ({ comment, currentUser, onClickDeleteComment, onUpdateComme
 
             <i
                 className={`fa-solid fa-ellipsis-vertical p-2 text-gray-500 cursor-pointer invisible 
-                        ${currentUser === comment.user._id ? 'group-hover:visible' : ''}`}
+                        ${loggedInUserId === comment.user._id ? 'group-hover:visible' : ''}`}
                 onClick={() => setOpen(!open)}
             ></i>
         </div>
