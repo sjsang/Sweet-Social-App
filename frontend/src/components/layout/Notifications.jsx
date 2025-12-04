@@ -146,7 +146,7 @@ const Notifications = ({ navigate }) => {
                                     ></i>
 
                                     {openMenuId === noti._id && (
-                                        <div className="absolute right-5 top-7 bg-white border border-gray-200 shadow-lg rounded-xl p-2 w-40 z-50">
+                                        <div className="absolute right-5 top-7 bg-white border border-gray-200 shadow-lg rounded-lg p-2 w-fit z-50">
                                             <p
                                                 className="py-1 px-2 rounded-lg hover:bg-gray-100 cursor-pointer text-sm"
                                                 onClick={(e) => {

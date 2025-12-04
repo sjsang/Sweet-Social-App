@@ -1,7 +1,9 @@
 import PostItem from "./PostItem";
 import PostItemSkeleton from "../posts/PostItemSkeleton";
+import api from "../../api/axiosConfig";
+import { useState } from "react";
 
-const PostList = ({ posts, loggedInUserId, loading }) => {
+const PostList = ({ posts, setPosts, loggedInUserId, loading, fromProfile }) => {
     if (loading) {
         return (
             <div>
@@ -10,6 +12,19 @@ const PostList = ({ posts, loggedInUserId, loading }) => {
                 ))}
             </div>
         );
+    }
+
+    const handleDelete = async (id) => {
+        if (confirm('Bạn có chắc chắn muốn xóa bài viết này không?')) {
+            try {
+                const res = await api.delete(`/posts/${id}`);
+                if (res.data.success) {
+                    setPosts(prev => prev.filter(post => post._id !== id));
+                }
+            } catch (error) {
+                console.log('Có lỗi xảy ra khi xóa bài viết: ', error?.response?.data?.message);
+            }
+        }
     }
 
     return (
@@ -21,6 +36,8 @@ const PostList = ({ posts, loggedInUserId, loading }) => {
                             key={post._id}
                             post={post}
                             loggedInUserId={loggedInUserId}
+                            fromProfile={fromProfile}
+                            onDelete={handleDelete}
                         />
                     ))
                 ) : (

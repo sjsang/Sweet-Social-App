@@ -4,7 +4,8 @@ import api from "../../api/axiosConfig";
 import PostHeader from './PostHeader';
 import PostFooter from "./PostFooter";
 import CommentItem from "../comments/CommentItem";
-import Header from "../../components/layout/Header";
+import Header from "../layout/Header";
+import AutoFitImage from "../layout/AutoFitImage";
 
 const PostDetail = () => {
     const { id } = useParams();
@@ -88,11 +89,7 @@ const PostDetail = () => {
                 <div className="w-full md:w-3/4 md:h-[calc(100vh-60px)] flex items-center justify-center bg-neutral-950 md:sticky top-15">
                     {post?.image
                         ? (
-                            <img
-                                src={post.image}
-                                alt="post"
-                                className="max-w-full max-h-full object-contain"
-                            />)
+                            <AutoFitImage src={post.image} alt="preview" />)
                         : (
                             <div className="text-gray-400">
                                 Không có ảnh.

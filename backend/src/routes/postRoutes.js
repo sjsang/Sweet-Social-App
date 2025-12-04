@@ -17,7 +17,7 @@ import {
 router.post('/', authMiddleware, uploadPostImage.single('image'), createPost);
 router.get('/', getAllPosts);
 router.get('/:id', getPostById);
-router.patch('/:id', authMiddleware, uploadPostImage.single('image'), updatePost);
+router.patch('/:id', authMiddleware, updatePost);
 router.delete('/:id', authMiddleware, deletePost);
 router.post('/:id/like', authMiddleware, toggleLikePost);
 router.post('/:id/comment', authMiddleware, commentPost);
