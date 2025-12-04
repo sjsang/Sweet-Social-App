@@ -39,14 +39,14 @@ const New = () => {
         <div>
             <Header />
 
-            <div className="h-5"></div>
+            <div className="md:h-5"></div>
 
             <div className="md:flex md:justify-center md:gap-5">
-                <div className="hidden md:block md:w-1/5">
+                <div className="flex md:block md:w-1/5">
                     <SideBarMenu activePage={'new'} />
                 </div>
 
-                <div className="md:w-1/3">
+                <div className="md:w-1/3 p-3 md:p-0">
                     <PostForm onSubmit={handleCreatePost} loading={loading} />
                 </div>
 

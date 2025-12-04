@@ -62,14 +62,14 @@ const Explore = () => {
         <div>
             <Header />
 
-            <div className="h-5"></div>
+            <div className="md:h-5"></div>
 
             <div className="md:flex md:justify-center md:gap-5">
-                <div className="hidden md:block md:w-1/5">
+                <div className="block md:w-1/5">
                     <SideBarMenu activePage={'explore'} />
                 </div>
 
-                <div className="md:w-1/3 h-fit flex flex-wrap gap-2">
+                <div className="md:w-1/3 h-fit flex flex-wrap gap-2 p-3 md:p-0">
                     <div className="w-full relative">
                         <div className="absolute top-1/2 left-2 pr-2 -translate-y-1/2 border-r border-r-gray-200">
                             <SearchIcon sx={{ color: '#99a1af ' }} />
@@ -95,7 +95,7 @@ const Explore = () => {
 
                     {isSearching && searchResults.length > 0 && searchResults.map(u => (
                         <div
-                            className="w-[calc(50%-4px)] bg-white p-3 rounded-lg shadow flex gap-3 cursor-pointer"
+                            className="w-full md:w-[calc(50%-4px)] bg-white p-3 rounded-lg shadow flex gap-3 cursor-pointer"
                             key={u._id}
                             onClick={() => navigate(`/users/${u._id}`)}
                         >
@@ -112,7 +112,7 @@ const Explore = () => {
 
                     {!isSearching && featuredUsers && featuredUsers.map(u => (
                         <div
-                            className="w-[calc(50%-4px)] bg-white p-3 rounded-lg shadow flex gap-3 cursor-pointer"
+                            className="w-full md:w-[calc(50%-4px)] bg-white p-3 rounded-lg shadow flex gap-3 cursor-pointer"
                             key={u._id}
                             onClick={() => navigate(`/users/${u._id}`)}
                         >

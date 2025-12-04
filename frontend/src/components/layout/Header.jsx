@@ -37,7 +37,7 @@ const Header = ({ onClickLogo }) => {
     };
 
     return (
-        <div className="hidden md:flex items-center w-full h-15 sticky top-0 z-10 bg-white shadow">
+        <div className="flex items-center w-full h-15 sticky top-0 z-50 bg-white shadow">
             <div className="w-[calc(11/15*100%+40px)] m-auto flex justify-between">
                 <img
                     src="/main-logo.png"

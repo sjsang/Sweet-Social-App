@@ -41,16 +41,19 @@ const Profile = () => {
             <div className="md:h-5"></div>
 
             <div className="md:flex md:justify-center md:gap-5">
-                <div className="hidden md:block md:w-1/5">
+                <div className="flex md:block md:w-1/5">
                     <SideBarMenu />
                 </div>
 
                 <div className="md:w-1/3">
-                    {user && posts &&
-                        <ProfileHeader user={user} posts={posts} loggedInUserId={loggedInUserId} />
-                    }
+                    <div className="w-full fixed top-15 z-10 md:static">
+                        {user && posts &&
+                            <ProfileHeader user={user} posts={posts} loggedInUserId={loggedInUserId} />
+                        }
+                    </div>
                     <div className="md:mt-5">
                         {posts && <PostList posts={posts} setPosts={setPosts} loggedInUserId={loggedInUserId} fromProfile={true} isMe={isMe} />}
+                        <div className="h-10 md:h-0"></div>
                     </div>
                 </div>
 

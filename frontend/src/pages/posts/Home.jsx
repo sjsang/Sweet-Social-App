@@ -38,15 +38,16 @@ const Home = () => {
         <div>
             <Header onClickLogo={handleRefresh} />
 
-            <div className="h-5"></div>
+            <div className="md:h-5"></div>
 
             <div className="md:flex md:justify-center md:gap-5">
-                <div className="hidden md:block md:w-1/5">
+                <div className="block md:w-1/5">
                     <SideBarMenu activePage={'home'} />
                 </div>
 
                 <div className="md:w-1/3">
                     <PostList posts={posts} loggedInUserId={loggedInUserId} loading={loading} />
+                    <div className="h-10 md:h-0"></div>
                 </div>
 
                 <div className="hidden md:block md:w-1/5"></div>

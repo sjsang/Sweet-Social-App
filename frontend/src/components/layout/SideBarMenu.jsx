@@ -1,41 +1,39 @@
 import { useNavigate } from "react-router-dom";
-import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
-import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import PublicIcon from '@mui/icons-material/Public';
 
 const SideBarMenu = ({ activePage }) => {
     const navigate = useNavigate();
     const handleNavigate = (target) => navigate(target);
 
-    const activeClass = 'bg-linear-to-r from-[#8114b0] via-[#ff4291] to-[#f7ff3c] text-white';
+    const activeClass = 'bg-linear-to-r from-[#8114b0] via-[#ff4291] to-[#f7ff3c] bg-clip-text text-transparent md:bg-clip-border md:text-white';
 
     return (
-        <div className="w-[90%] space-y-2 sticky top-20">
-            <div className={`${activePage === 'home' ? `${activeClass}` : 'bg-white'} p-2 shadow rounded-lg`}>
+        <div className="fixed bottom-0 md:sticky md:top-20 z-50 flex justify-center gap-10 md:block w-full md:w-[90%] pl-2 md:space-y-2 bg-white md:bg-transparent shadow md:shadow-none">
+
+            <div className={`${activePage === 'home' ? `${activeClass}` : 'md:bg-white'} p-2 md:shadow rounded-lg`}>
                 <div
                     className="cursor-pointer flex items-center gap-5"
                     onClick={() => handleNavigate('/')}
                 >
-                    <PublicIcon sx={{ fontSize: 30 }} />
-                    <p>Bảng tin</p>
+                    <i class="fa-solid fa-earth-americas text-3xl md:text-2xl"></i>
+                    <p className="hidden md:block">Bảng tin</p>
                 </div>
             </div>
-            <div className={`${activePage === 'explore' ? `${activeClass}` : 'bg-white'} p-2 shadow rounded-lg`}>
+            <div className={`${activePage === 'explore' ? `${activeClass}` : 'md:bg-white'} p-2 md:shadow rounded-lg`}>
                 <div
                     className="cursor-pointer flex items-center gap-5"
                     onClick={() => handleNavigate('/explore')}
                 >
-                    <ExploreOutlinedIcon sx={{ fontSize: 30 }} />
-                    <p>Khám phá</p>
+                    <i class="fa-regular fa-compass text-3xl md:text-2xl"></i>
+                    <p className="hidden md:block">Khám phá</p>
                 </div>
             </div>
-            <div className={`${activePage === 'new' ? `${activeClass}` : 'bg-white'} p-2 shadow rounded-lg`}>
+            <div className={`${activePage === 'new' ? `${activeClass}` : 'md:bg-white'} p-2 md:shadow rounded-lg`}>
                 <div
                     className="cursor-pointer flex items-center gap-5"
                     onClick={() => handleNavigate('/posts/new')}
                 >
-                    < AddCircleOutlineOutlinedIcon sx={{ fontSize: 30 }} />
-                    <p>Tạo bài viết</p>
+                    <i class="fa-regular fa-square-plus text-3xl md:text-2xl"></i>
+                    <p className="hidden md:block">Tạo bài viết</p>
                 </div>
             </div>
         </div>

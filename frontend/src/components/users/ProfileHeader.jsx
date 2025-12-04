@@ -127,7 +127,7 @@ const ProfileHeader = ({ user, posts, loggedInUserId }) => {
     }
 
     return (
-        <div className="bg-white p-3 rounded-lg shadow">
+        <div className="bg-white p-3 md:rounded-lg shadow">
             <div className="flex gap-3 relative">
                 <input
                     type="file"
@@ -157,7 +157,7 @@ const ProfileHeader = ({ user, posts, loggedInUserId }) => {
                 <div className="flex flex-col grow">
                     <div>
                         {isEditing ? (
-                            <div className="flex justify-between">
+                            <div className="flex flex-col md:flex-row justify-between">
                                 <div>
                                     <input
                                         className="border border-gray-300 rounded outline-0 px-2 py-1 w-full"
@@ -204,23 +204,32 @@ const ProfileHeader = ({ user, posts, loggedInUserId }) => {
                         ) : (
                             <>
                                 <p className="font-bold text-lg">{displayUser.username}</p>
-                                <p className="mt-1">{displayUser.name}</p>
+                                <p className="md:mt-1">{displayUser.name}</p>
                             </>
                         )}
                     </div>
 
                     {!isEditing && (
                         <div className="flex gap-5 mt-auto">
-                            <p><strong>{postsLength}</strong> bài viết</p>
-                            <p><strong>{displayUser.followers.length}</strong> người theo dõi</p>
-                            <p><strong>{displayUser.following.length}</strong> đang theo dõi</p>
+                            <div className="flex flex-col md:flex-row md:gap-1">
+                                <strong>{postsLength}</strong>
+                                <p className="text-xs md:text-base">bài viết</p>
+                            </div>
+                            <div className="flex flex-col md:flex-row md:gap-1">
+                                <strong>{displayUser.followers.length}</strong>
+                                <p className="text-xs md:text-base">người theo dõi</p>
+                            </div>
+                            <div className="flex flex-col md:flex-row md:gap-1">
+                                <strong>{displayUser.followers.length}</strong>
+                                <p className="text-xs md:text-base">đang theo dõi</p>
+                            </div>
                         </div>
                     )}
                 </div>
 
                 {!isEditing && !isAnotherUser && (
                     <i
-                        className="fa-solid fa-ellipsis ms-auto cursor-pointer"
+                        className="fa-solid fa-ellipsis absolute right-0 cursor-pointer"
                         onClick={() => setOpenMenu(prev => !prev)}
                     ></i>
                 )}

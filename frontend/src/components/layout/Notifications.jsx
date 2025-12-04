@@ -115,7 +115,7 @@ const Notifications = ({ navigate }) => {
             </Badge>
 
             {openNotiBox && (
-                <div className="absolute top-8 right-0 w-100 p-2 pr-0 overflow-hidden bg-white shadow-lg border border-gray-200 rounded-lg">
+                <div className="absolute top-10 -right-20 md:right-0 w-90 md:w-100 p-2 pr-0 overflow-hidden bg-white shadow-lg border border-gray-200 rounded-lg">
                     <p className="font-bold text-xl p-2">Thông báo</p>
 
                     {notifications.length !== 0 ? (
@@ -138,7 +138,7 @@ const Notifications = ({ navigate }) => {
                                     </div>
 
                                     <i
-                                        className="fa-solid fa-ellipsis-vertical text-gray-500 opacity-0 p-2 group-hover:opacity-100 hover:text-black cursor-pointer"
+                                        className="fa-solid fa-ellipsis-vertical text-gray-500 opacity-100 md:opacity-0 p-2 group-hover:opacity-100 hover:text-black cursor-pointer"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             setOpenMenuId(prev => prev === noti._id ? null : noti._id);
