@@ -218,7 +218,7 @@ const ProfileHeader = ({ user, posts, loggedInUserId }) => {
                     )}
                 </div>
 
-                {!isEditing && (
+                {!isEditing && !isAnotherUser && (
                     <i
                         className="fa-solid fa-ellipsis ms-auto cursor-pointer"
                         onClick={() => setOpenMenu(prev => !prev)}
