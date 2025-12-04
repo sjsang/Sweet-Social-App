@@ -1,8 +1,8 @@
-# CT466 - Niêm luận CNTT
+# CT466 - Niên luận CNTT
 
 Học kỳ 1, Năm học 2025-2026
 
-## I. Tổng quan
+## Tổng quan
 
 **Miêu tả dự án/ứng dụng:**
 
