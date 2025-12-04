@@ -12,9 +12,11 @@ const Profile = () => {
 
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState(null);
+    const [isMe, setIsMe] = useState(false);
 
     useEffect(() => {
         fetchUserAndPosts();
+        setIsMe(id === loggedInUserId);
     }, [id]);
 
     const fetchUserAndPosts = async () => {
@@ -28,6 +30,9 @@ const Profile = () => {
             console.error("Lỗi khi lấy thông tin:", error);
         }
     }
+
+    console.log(isMe);
+
 
     return (
         <div>
@@ -45,7 +50,7 @@ const Profile = () => {
                         <ProfileHeader user={user} posts={posts} loggedInUserId={loggedInUserId} />
                     }
                     <div className="md:mt-5">
-                        {posts && <PostList posts={posts} setPosts={setPosts} loggedInUserId={loggedInUserId} fromProfile={true} />}
+                        {posts && <PostList posts={posts} setPosts={setPosts} loggedInUserId={loggedInUserId} fromProfile={true} isMe={isMe} />}
                     </div>
                 </div>
 

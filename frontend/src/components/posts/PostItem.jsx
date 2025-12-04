@@ -1,10 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import PostForm from "../../components/posts/PostForm";
 import PostHeader from './PostHeader';
 import PostFooter from './PostFooter';
 import { useRef, useState, useEffect } from 'react';
 
-const PostItem = ({ post, loggedInUserId, fromProfile, onDelete }) => {
+const PostItem = ({ post, loggedInUserId, fromProfile, onDelete, isMe }) => {
     const navigate = useNavigate();
     const goToDetail = () => navigate(`/posts/${post._id}`);
 
@@ -24,7 +23,7 @@ const PostItem = ({ post, loggedInUserId, fromProfile, onDelete }) => {
     return (
         <div className='relative mb-0.5 md:mb-3 md:rounded-lg shadow border-gray-400 overflow-hidden'>
             <div ref={wrapperRef}>
-                {fromProfile && (
+                {fromProfile && isMe && (
                     <div
                         className="absolute top-0 right-0 text-lg p-1 px-2 text-black bg-white rounded-bl-lg cursor-pointer"
                         onClick={(e) => {

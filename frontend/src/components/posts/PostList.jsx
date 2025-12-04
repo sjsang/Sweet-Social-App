@@ -2,7 +2,7 @@ import PostItem from "./PostItem";
 import PostItemSkeleton from "../posts/PostItemSkeleton";
 import api from "../../api/axiosConfig";
 
-const PostList = ({ posts, setPosts, loggedInUserId, loading, fromProfile }) => {
+const PostList = ({ posts, setPosts, loggedInUserId, loading, fromProfile, isMe }) => {
     if (loading) {
         return (
             <div>
@@ -37,6 +37,7 @@ const PostList = ({ posts, setPosts, loggedInUserId, loading, fromProfile }) => 
                             loggedInUserId={loggedInUserId}
                             fromProfile={fromProfile}
                             onDelete={handleDelete}
+                            isMe={isMe}
                         />
                     ))
                 ) : (
