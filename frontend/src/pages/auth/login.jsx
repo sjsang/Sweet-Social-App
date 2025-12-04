@@ -2,7 +2,6 @@ import api from "../../api/axiosConfig";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-
 import GoogleLoginButton from "../../components/auth/GoogleLoginButton";
 
 const Login = () => {
