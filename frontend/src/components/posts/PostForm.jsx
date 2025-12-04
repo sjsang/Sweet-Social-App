@@ -140,7 +140,7 @@ const PostForm = ({ onSubmit, loading }) => {
                     <button
                         className='w-full py-1 px-2 rounded text-white transition-colors duration-200
                                   bg-gray-400 cursor-pointer hover:bg-gray-500'
-                        type="submit"
+                        type="button"
                         onClick={() => navigate(-1)}
                     >
                         Hủy

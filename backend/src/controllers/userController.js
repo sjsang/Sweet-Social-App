@@ -2,6 +2,7 @@ import User from '../models/User.js';
 import Post from '../models/Post.js';
 import Comment from '../models/Comment.js';
 import Notification from '../models/Notification.js';
+import bcrypt from 'bcryptjs';
 
 const searchUsers = async (req, res) => {
     try {
@@ -140,31 +141,38 @@ const deleteUser = async (req, res) => {
     try {
         const userId = req.userId;
         const { id } = req.params;
+
         if (userId.toString() !== id.toString())
             return res.status(403).json({ message: 'Không có quyền xóa.' });
 
-        const deletedUser = await User.findByIdAndDelete(id);
-        if (!deletedUser)
+        const user = await User.findById(id);
+        if (!user)
             return res.status(404).json({ message: 'Không tìm thấy người dùng.' });
 
+        if (user.provider !== "google") {
+            if (!password)
+                return res.status(400).json({ message: "Vui lòng nhập mật khẩu." });
+
+            const { password } = req.body;
+
+            if (!password)
+                return res.status(400).json({ message: 'Vui lòng nhập mật khẩu.' });
+
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch)
+                return res.status(401).json({ message: "Mật khẩu không đúng." });
+        }
+
         await Promise.all([
+            User.findByIdAndDelete(id),
             Post.deleteMany({ user: id }),
             Comment.deleteMany({ user: id }),
             Notification.deleteMany({
                 $or: [{ recipient: id }, { sender: id }]
             }),
-            Post.updateMany(
-                { likes: id },
-                { $pull: { likes: id } }
-            ),
-            User.updateMany(
-                { followers: id },
-                { $pull: { followers: id } }
-            ),
-            User.updateMany(
-                { following: id },
-                { $pull: { following: id } }
-            )
+            Post.updateMany({ likes: id }, { $pull: { likes: id } }),
+            User.updateMany({ followers: id }, { $pull: { followers: id } }),
+            User.updateMany({ following: id }, { $pull: { following: id } })
         ]);
 
         return res.status(200).json({

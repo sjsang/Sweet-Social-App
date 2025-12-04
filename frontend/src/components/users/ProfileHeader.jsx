@@ -19,6 +19,10 @@ const ProfileHeader = ({ user, posts, loggedInUserId }) => {
         avatar: null
     });
     const [loading, setLoading] = useState(false);
+    const [openMenu, setOpenMenu] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deletePassword, setDeletePassword] = useState("");
+    const [deleteError, setDeleteError] = useState("");
 
     useEffect(() => {
         setDisplayUser(user);
@@ -81,9 +85,50 @@ const ProfileHeader = ({ user, posts, loggedInUserId }) => {
         setIsEditing(false);
     };
 
+    const handleDeleteUser = async () => {
+        if (!deletePassword) {
+            setDeleteError("Vui lòng nhập mật khẩu.");
+            return;
+        }
+
+        try {
+            const res = await api.delete(`/users/${displayUser._id}`, {
+                data: { password: deletePassword }
+            });
+
+            if (res.data.success) {
+                window.location.href = "/login";
+            }
+        } catch (error) {
+            if (error.response?.status === 401) {
+                setDeleteError("Mật khẩu không đúng.");
+            } else if (error.response?.data?.message) {
+                setDeleteError(error.response.data.message);
+            } else {
+                setDeleteError("Có lỗi xảy ra. Vui lòng thử lại.");
+            }
+        }
+    };
+
+    const handleDeleteUserWithGoogleAccount = async () => {
+        if (user.provider !== 'google')
+            return;
+        if (confirm('Bạn có chắc chắn muốn xóa tài khoản không?')) {
+            try {
+                const res = await api.delete(`/users/${displayUser._id}`);
+
+                if (res.data.success) {
+                    window.location.href = "/login";
+                }
+            } catch (error) {
+                console.log('Có lỗi xảy ra khi xóa tài khoản: ', error?.response?.data?.message);
+            }
+        }
+    }
+
     return (
         <div className="bg-white p-3 rounded-lg shadow">
-            <div className="flex gap-3">
+            <div className="flex gap-3 relative">
                 <input
                     type="file"
                     className="hidden"
@@ -175,9 +220,73 @@ const ProfileHeader = ({ user, posts, loggedInUserId }) => {
 
                 {!isEditing && (
                     <i
-                        className="fa-solid fa-pen ms-auto cursor-pointer"
-                        onClick={() => setIsEditing(true)}
+                        className="fa-solid fa-ellipsis ms-auto cursor-pointer"
+                        onClick={() => setOpenMenu(prev => !prev)}
                     ></i>
+                )}
+                {openMenu && !isAnotherUser && (
+                    <div className="absolute right-4 top-4 bg-white border border-gray-200 shadow-lg rounded-lg p-2 w-fit z-50">
+                        <p
+                            className="px-3 py-1 hover:bg-gray-100 cursor-pointer"
+                            onClick={() => {
+                                setIsEditing(true);
+                                setOpenMenu(false);
+                            }}
+                        >
+                            Chỉnh sửa
+                        </p>
+                        <p
+                            className="px-3 py-1 text-red-500 hover:bg-gray-100 cursor-pointer"
+                            onClick={() => {
+                                setShowDeleteModal(true);
+                                setOpenMenu(false);
+                                handleDeleteUserWithGoogleAccount();
+                            }}
+                        >
+                            Xóa tài khoản
+                        </p>
+                    </div>
+                )}
+                {showDeleteModal && user.provider !== 'google' && (
+                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                        <div className="bg-white p-5 rounded shadow-lg w-80">
+                            <h3 className="font-bold text-lg mb-3 text-center">Xác nhận xóa tài khoản</h3>
+
+                            <input
+                                type="password"
+                                placeholder="Nhập mật khẩu"
+                                className="w-full border rounded px-2 py-1 outline-0"
+                                value={deletePassword}
+                                onChange={(e) => {
+                                    setDeletePassword(e.target.value);
+                                    setDeleteError("");
+                                }}
+                            />
+
+                            {deleteError && (
+                                <p className="text-red-500 text-sm mt-1">{deleteError}</p>
+                            )}
+
+                            <div className="flex justify-end mt-4 gap-2">
+                                <button
+                                    className="px-3 py-1 bg-gray-400 text-white rounded"
+                                    onClick={() => {
+                                        setShowDeleteModal(false);
+                                        setDeletePassword("");
+                                        setDeleteError("");
+                                    }}
+                                >
+                                    Hủy
+                                </button>
+                                <button
+                                    className="px-3 py-1 bg-rose-500 hover:bg-rose-600 text-white rounded"
+                                    onClick={handleDeleteUser}
+                                >
+                                    Xóa
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 )}
             </div>
             <div className="text-center">
